@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: com.deviseworks.Main
+Class-Path: out\production\instance_minecraft_server\com\deviseworks
+

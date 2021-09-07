@@ -75,9 +75,11 @@ public class ExecuteClass {
                     flag=false;
                 }else if(software.equalsIgnoreCase(String.valueOf(s.ordinal()))){
                     flag=false;
+                    software = s.name();
                 }
                 if(software.equalsIgnoreCase(String.valueOf(s.toString().charAt(0)))){
                     flag=false;
+                    software = s.name();
                 }
             }
             if(flag) {
@@ -91,13 +93,18 @@ public class ExecuteClass {
 //    バージョン選択関数
     public int selectVersion(String software){
         Scanner scanner = new Scanner(System.in);
+        PaperActionsClass paperActions = new PaperActionsClass();
 
         int version=0;
 
         System.out.println(software + " のバージョンを選択します");
         // 取得したバージョンリストを表示するメソッドを後々追加してね。
+        if(software.equalsIgnoreCase("paper")){
+            paperActions.getVersion(false);
+        }
 
         String tempVersion;
+        System.out.print("バージョンを入力: ");
         while(true) {
             tempVersion = scanner.nextLine();
             if (!tempVersion.equalsIgnoreCase("")) {

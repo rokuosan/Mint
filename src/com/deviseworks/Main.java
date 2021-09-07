@@ -11,12 +11,10 @@ public class Main {
         System.out.println("########################################################");
 
         // 実行内容を選択
-        PaperActionsClass paperActions = new PaperActionsClass();
-        paperActions.getVersion(false);
-//        ExecuteClass execute = new ExecuteClass();
-//        String command =  execute.askExecuteContents();
-//
-//        execute.executeCommand(command);
+        ExecuteClass execute = new ExecuteClass();
+        String command =  execute.askExecuteContents();
+
+        execute.executeCommand(command);
 
     }
 }

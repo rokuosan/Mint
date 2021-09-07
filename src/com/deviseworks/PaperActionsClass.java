@@ -32,7 +32,7 @@ public class PaperActionsClass {
             }
         }else{
         // 同期処理
-            HttpResponse response = null;
+            HttpResponse<String> response = null;
             try {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
             } catch (IOException | InterruptedException e) {

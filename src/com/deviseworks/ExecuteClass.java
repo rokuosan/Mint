@@ -47,6 +47,7 @@ public class ExecuteClass {
         switch(command){
             case "install":
                 String software = selectSoftware();
+                selectVersion(software);
             case "uninstall":
 
             case "setting":
@@ -88,6 +89,25 @@ public class ExecuteClass {
     }
 
 //    バージョン選択関数
+    public int selectVersion(String software){
+        Scanner scanner = new Scanner(System.in);
+
+        int version=0;
+
+        System.out.println(software + " のバージョンを選択します");
+        // 取得したバージョンリストを表示するメソッドを後々追加してね。
+
+        String tempVersion;
+        while(true) {
+            tempVersion = scanner.nextLine();
+            if (!tempVersion.equalsIgnoreCase("")) {
+                break;
+            }
+            System.out.println("認識できませんでした。もう一度入力してください: ");
+        }
+
+        return version;
+    }
 
 //    ファイル・フォルダ作成関数
     public void createFiles(){

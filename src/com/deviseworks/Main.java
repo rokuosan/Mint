@@ -1,21 +1,10 @@
 package com.deviseworks;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.StringReader;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
-
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 // JColor (装飾)
-import com.diogonunes.jcolor.AnsiFormat;
 import static com.diogonunes.jcolor.Ansi.colorize;
-import static com.diogonunes.jcolor.Attribute.RED_TEXT;
 
 
 public class Main {
@@ -57,7 +46,7 @@ public class Main {
         System.out.println("########################################################");
 
         // 実行内容を選択
-        AskExecuteClass execute = new AskExecuteClass();
+        ExecuteClass execute = new ExecuteClass();
         execute.askExecuteContents();
 
 

@@ -2,7 +2,7 @@ package com.deviseworks;
 
 import java.util.Scanner;
 
-public class AskExecuteClass {
+public class ExecuteClass {
     public void askExecuteContents(){
 
         Scanner scanner = new Scanner(System.in);

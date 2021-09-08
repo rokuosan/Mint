@@ -10,6 +10,9 @@ import java.util.Scanner;
 
 // JColor (装飾)
 import com.diogonunes.jcolor.AnsiFormat;
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import static com.diogonunes.jcolor.Attribute.RED_TEXT;
 import static com.diogonunes.jcolor.Ansi.colorize;
 
@@ -26,17 +29,14 @@ public class ExecuteClass {
             doContents = scanner.nextLine();
             for (ExecutableContentsEnum e : ExecutableContentsEnum.values()) {
                 if (doContents.equalsIgnoreCase(e.name())) {
-                    if(doContents.equalsIgnoreCase("help")){
-                        System.out.println("** Command List / コマンドリスト **");
-                        System.out.println("1, install - インスタンスを作成する");
-                        System.out.println("2, uninstall - インスタンスを削除する");
-                        System.out.println("3, setting - 詳細設定を行う");
-                        System.out.println("4, help - このリストを表示");
-                    }else {
-                        return doContents;
-                    }
+                    return doContents;
                 }
             }
+            System.out.println("\n** Command List / コマンドリスト **");
+            System.out.println("1, install - インスタンスを作成する");
+            System.out.println("2, uninstall - インスタンスを削除する");
+            System.out.println("3, setting - 詳細設定を行う");
+            System.out.println("4, help - このリストを表示");
             System.out.print("\nなにを実行しますか？ (helpと入力して一覧を表示):");
         }
     }
@@ -47,7 +47,7 @@ public class ExecuteClass {
         switch(command){
             case "install":
                 String software = selectSoftware();
-                selectVersion(software);
+                String version = selectVersion(software);
             case "uninstall":
 
             case "setting":
@@ -58,12 +58,12 @@ public class ExecuteClass {
 //    ソフトウェア選択関数
     public String selectSoftware(){
         Scanner scanner = new Scanner(System.in); // Create Scanner Class
-
+        System.out.println("");
         for(ServerSoftwareEnum software: ServerSoftwareEnum.values()){ // 画面表示
             System.out.print(software.ordinal() + ", ");
             System.out.println(software);
         }
-        System.out.print("どれを使用しますか？: ");
+        System.out.print("\nどれを使用しますか？: ");
 
         String software;
 
@@ -71,13 +71,7 @@ public class ExecuteClass {
         do {
             software = scanner.nextLine();
             for (ServerSoftwareEnum s : ServerSoftwareEnum.values()) {
-                if (software.equalsIgnoreCase(s.toString())) {
-                    flag=false;
-                }else if(software.equalsIgnoreCase(String.valueOf(s.ordinal()))){
-                    flag=false;
-                    software = s.name();
-                }
-                if(software.equalsIgnoreCase(String.valueOf(s.toString().charAt(0)))){
+                if (software.equalsIgnoreCase(s.toString()) || software.equalsIgnoreCase(String.valueOf(s.toString().charAt(0))) || software.equalsIgnoreCase(String.valueOf(s.ordinal()))) {
                     flag=false;
                     software = s.name();
                 }
@@ -91,29 +85,39 @@ public class ExecuteClass {
     }
 
 //    バージョン選択関数
-    public int selectVersion(String software){
+    public String selectVersion(String software) {
         Scanner scanner = new Scanner(System.in);
         PaperActionsClass paperActions = new PaperActionsClass();
+        JSONObject json;
+        JSONArray items;
 
-        int version=0;
-
-        System.out.println(software + " のバージョンを選択します");
+        System.out.println("\n" + software + " のバージョンを選択します");
         // 取得したバージョンリストを表示するメソッドを後々追加してね。
-        if(software.equalsIgnoreCase("paper")){
-            paperActions.getVersion(false);
-        }
 
-        String tempVersion;
-        System.out.print("バージョンを入力: ");
-        while(true) {
-            tempVersion = scanner.nextLine();
-            if (!tempVersion.equalsIgnoreCase("")) {
-                break;
+        // PAPER の場合（他のソフトウェアと同じかわからないから今はIFで分岐してる）
+        if (software.equalsIgnoreCase("paper")) {
+            json = paperActions.getVersion(false);
+            String tempVersion;
+            System.out.print("\n使用するバージョンを入力 (listで一覧表示): ");
+            while (true) {
+                tempVersion = scanner.nextLine();
+                items = json.getJSONArray("versions");
+                if (tempVersion.equalsIgnoreCase("list")) {
+                    System.out.println("");
+                    for (int i = 0; i < items.length(); i++) {
+                        System.out.println(items.get(i));
+                    }
+                }
+                for (int i = 0; i < items.length(); i++) {
+                    if (tempVersion.equalsIgnoreCase((String) items.get(i))) {
+                        return tempVersion;
+                    }
+                }
+                System.out.print("\n使用するバージョンを入力 (listで一覧表示): ");
             }
-            System.out.println("認識できませんでした。もう一度入力してください: ");
         }
 
-        return version;
+        return "ERROR";
     }
 
 //    ファイル・フォルダ作成関数

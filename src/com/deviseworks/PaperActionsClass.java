@@ -7,7 +7,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.Objects;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class PaperActionsClass {
@@ -20,8 +19,7 @@ public class PaperActionsClass {
 
     // バージョンを取得して一覧表示する
     public JSONObject getVersion(){
-        JSONObject json = new JSONObject(this.getVersion(false));
-        return json;
+        return new JSONObject(this.getVersion(false));
     }
 
     public JSONObject getVersion(boolean isAsync){
@@ -51,14 +49,9 @@ public class PaperActionsClass {
                 System.out.println("\nリクエストに失敗しました。インターネットに接続されているか確認してください。\n");
             }
             System.out.println("[完了]");
-//            System.out.println(Objects.requireNonNull(response).body()); // デバッグ
         }
-        // JSON オブジェクト作成
-        JSONObject json = new JSONObject(response.body());
-        // JSON Array 作成
-//        JSONArray items = json.getJSONArray("versions");
 
-        return json;
+        return new JSONObject(Objects.requireNonNull(response).body());
     }
 }
 

@@ -58,7 +58,7 @@ public class ExecuteClass {
 //    ソフトウェア選択関数
     public String selectSoftware(){
         Scanner scanner = new Scanner(System.in); // Create Scanner Class
-        System.out.println("");
+        System.out.println();
         for(ServerSoftwareEnum software: ServerSoftwareEnum.values()){ // 画面表示
             System.out.print(software.ordinal() + ", ");
             System.out.println(software);
@@ -103,7 +103,7 @@ public class ExecuteClass {
                 tempVersion = scanner.nextLine();
                 items = json.getJSONArray("versions");
                 if (tempVersion.equalsIgnoreCase("list")) {
-                    System.out.println("");
+                    System.out.println();
                     for (int i = 0; i < items.length(); i++) {
                         System.out.println(items.get(i));
                     }

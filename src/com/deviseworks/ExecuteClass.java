@@ -48,6 +48,8 @@ public class ExecuteClass {
             case "install":
                 String software = selectSoftware();
                 String version = selectVersion(software);
+                String build = selectBuild(software, version);
+                downloadServer(software, version, build);
             case "uninstall":
 
             case "setting":
@@ -91,34 +93,94 @@ public class ExecuteClass {
         JSONObject json;
         JSONArray items;
 
-        System.out.println("\n" + software + " のバージョンを選択します");
         // 取得したバージョンリストを表示するメソッドを後々追加してね。
 
         // PAPER の場合（他のソフトウェアと同じかわからないから今はIFで分岐してる）
         if (software.equalsIgnoreCase("paper")) {
             json = paperActions.getVersion(false);
             String tempVersion;
-            System.out.print("\n使用するバージョンを入力 (listで一覧表示): ");
             while (true) {
+                System.out.print("\n使用するバージョンを入力 (listで一覧表示): ");
                 tempVersion = scanner.nextLine();
                 items = json.getJSONArray("versions");
                 if (tempVersion.equalsIgnoreCase("list")) {
-                    System.out.println();
+                    System.out.println("[=]");
                     for (int i = 0; i < items.length(); i++) {
+                        System.out.print(" | ");
                         System.out.println(items.get(i));
                     }
+                }
+                if(tempVersion.equalsIgnoreCase("latest")){
+                    System.out.println("\n\t- 最新バージョンを使用します");
+                    String temp="";
+                    for(int i=0; i<items.length(); i++){
+                        temp = (String) items.get(i);
+                    }
+                    return temp;
                 }
                 for (int i = 0; i < items.length(); i++) {
                     if (tempVersion.equalsIgnoreCase((String) items.get(i))) {
                         return tempVersion;
                     }
                 }
-                System.out.print("\n使用するバージョンを入力 (listで一覧表示): ");
             }
         }
 
         return "ERROR";
     }
+
+//    ビルド選択
+    public String selectBuild(String software, String version){
+        PaperActionsClass paperAction = new PaperActionsClass(); // Paperクラス作成
+        Scanner scanner = new Scanner(System.in);
+        JSONObject json;
+        JSONArray items;
+
+        String tempBuild;
+
+       if(software.equalsIgnoreCase("paper")){
+           // 初期設定
+           json = paperAction.getBuilds(version, false);
+           items = json.getJSONArray("builds");
+
+           // 実行内容
+           while(true) {
+               System.out.print("\n使用するビルドを入力(listで一覧表示): ");
+               tempBuild = scanner.nextLine();
+               if(tempBuild.equalsIgnoreCase("list")){
+                   System.out.println("[=]");
+                   for(int i=0;i<items.length();i++){
+                       System.out.print(" | ");
+                       System.out.println(items.get(i));
+                   }
+               }
+               if(tempBuild.equalsIgnoreCase("latest")){
+                   System.out.println("\n\t- 最新ビルドを使用します");
+                   String temp="";
+                   for(int i=0; i<items.length(); i++){
+                       temp = String.valueOf(items.get(i));
+                   }
+                   return temp;
+               }
+               for(int i=0; i<items.length(); i++){
+                   if (tempBuild.equalsIgnoreCase(String.valueOf(items.get(i)))) {
+                       return tempBuild;
+                   }
+               }
+           }
+       }
+
+        return software + version;
+    }
+
+//    サーバーソフトウェアダウンロード
+    public void downloadServer(String software, String version, String build) {
+        PaperActionsClass paperAction = new PaperActionsClass(); // Paperクラス作成
+        if (software.equalsIgnoreCase("paper")) {
+            paperAction.download(version, build);
+        }
+    }
+
 
 //    ファイル・フォルダ作成関数
     public void createFiles(){

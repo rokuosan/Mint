@@ -9,16 +9,27 @@ public class Main {
         System.out.println("# This software is under development.                  #");
         System.out.println("# 現在開発中です。                                        #");
         System.out.println("########################################################");
-        System.out.println("\n** Command List / コマンドリスト **");
-        System.out.println("1, install - インスタンスを作成する");
-        System.out.println("2, uninstall - インスタンスを削除する");
-        System.out.println("3, setting - 詳細設定を行う");
-        System.out.println("4, help - このリストを表示\n");
+
+        ExecuteClass execute;
+        String command;
 
         // 実行内容を選択
-        ExecuteClass execute = new ExecuteClass();
-        String command =  execute.askExecuteContents();
-
+        while(true) {
+            execute = new ExecuteClass();
+            command = execute.askExecuteContents();
+            if(command.equalsIgnoreCase("exit")){
+                System.out.println("システムを終了します");
+                return;
+            }else if(command.equalsIgnoreCase("help")){
+                for(ExecutableContentsEnum content: ExecutableContentsEnum.values()){
+                    System.out.print("\t");
+                    System.out.print(content.ordinal());
+                    System.out.print(", " + content.name()+ "\n");
+                }
+            }else{
+                break;
+            }
+        }
         execute.executeCommand(command);
 
     }

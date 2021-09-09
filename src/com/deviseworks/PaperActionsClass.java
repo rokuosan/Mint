@@ -125,7 +125,7 @@ public class PaperActionsClass {
         int tag = 100;
         Path check;
         while(true) {
-            check = Paths.get(current + "/" + version + "/" + tag + "/");
+            check = Paths.get(current + "/paper/" + version + "/" + tag + "/");
             if(!Files.exists(check)) {
                 try {
                     Files.createDirectories(check);
@@ -151,7 +151,7 @@ public class PaperActionsClass {
 
         // 起動用バッチファイル作成
         try {
-            System.out.print("\t- 起動用バッチファイルを作成中...");
+            System.out.print("\t- テスト用起動バッチファイルを作成中...");
             Files.createFile(Paths.get(check + "/start.bat"));
             FileWriter fileWriter = new FileWriter(check + "/start.bat"); //書き込みオブジェクト
             fileWriter.write("@echo off\r\njava -Xmx4G -Xms4G -server -jar paper-" + version + "-" + build + ".jar nogui\r\npause");

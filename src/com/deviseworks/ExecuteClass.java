@@ -22,37 +22,31 @@ public class ExecuteClass {
 
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("なにを実行しますか？ (helpと入力して一覧を表示):");
         String doContents;
 
         while(true) {
+            System.out.print("\nなにを実行しますか？ (helpと入力して一覧を表示):");
             doContents = scanner.nextLine();
             for (ExecutableContentsEnum e : ExecutableContentsEnum.values()) {
                 if (doContents.equalsIgnoreCase(e.name())) {
                     return doContents;
                 }
             }
-            System.out.println("\n** Command List / コマンドリスト **");
-            System.out.println("1, install - インスタンスを作成する");
-            System.out.println("2, uninstall - インスタンスを削除する");
-            System.out.println("3, setting - 詳細設定を行う");
-            System.out.println("4, help - このリストを表示");
-            System.out.print("\nなにを実行しますか？ (helpと入力して一覧を表示):");
         }
     }
 
 //    コマンド実行関数
     public void executeCommand(String command){
 
-        switch(command){
-            case "install":
+        switch (command) {
+            case "install" -> {
                 String software = selectSoftware();
                 String version = selectVersion(software);
                 String build = selectBuild(software, version);
                 downloadServer(software, version, build);
-            case "uninstall":
-
-            case "setting":
+            }
+            case "uninstall" -> System.out.println("現在制作中です");
+            case "setting" -> System.out.println("現在制作中です。");
         }
     }
 

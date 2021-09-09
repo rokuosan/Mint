@@ -83,12 +83,12 @@ public class PaperActionsClass {
             System.out.print("\t- ビルドを取得しています...");
             try {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                System.out.println("[完了]");
             } catch (IOException | InterruptedException e) {
 //                e.printStackTrace();
                 System.out.println("[失敗]");
                 System.out.println("\n\t- リクエストに失敗しました。インターネットに接続されているか確認してください。\n");
             }
-            System.out.println("[完了]");
         }
 
         return new  JSONObject(Objects.requireNonNull(response).body());
@@ -144,10 +144,10 @@ public class PaperActionsClass {
             URL url = new URL(full_uri);
             Path path = Paths.get(check + "/paper-" + version + "-" + build + ".jar");
             Files.copy(url.openStream(), path, REPLACE_EXISTING);
+            System.out.println("[完了]");
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("[完了]");
 
         // 起動用バッチファイル作成
         try {

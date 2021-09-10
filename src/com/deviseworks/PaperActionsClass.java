@@ -1,7 +1,6 @@
 package com.deviseworks;
 
 import java.io.*;
-//import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
@@ -14,8 +13,6 @@ import java.util.Objects;
 import java.util.Scanner;
 
 import org.json.JSONObject;
-
-//import javax.net.ssl.HttpsURLConnection;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
@@ -160,44 +157,6 @@ public class PaperActionsClass {
         }catch (IOException e) {
             e.printStackTrace();
         }
-
-//        try {
-//            URL url = new URL(full_uri); // URL宣言
-//            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection(); // URLConnection宣言
-//            connection.setAllowUserInteraction(false);
-//            connection.setInstanceFollowRedirects(true);
-//            connection.setRequestMethod("GET");
-//            connection.connect();
-//
-//            int StatusCode = connection.getResponseCode();
-//            if(StatusCode != HttpsURLConnection.HTTP_OK){
-//                throw new Exception("HTTP Status: " + StatusCode);
-//            }
-//
-//            String extension = connection.getContentType();
-//            System.out.println("Content Type: " + extension);
-//
-//            // Input Stream
-//            DataInputStream dataInputStream = new DataInputStream(connection.getInputStream());
-//            // Output Stream
-//            DataOutputStream dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(check + "/paper-" + version + "-" + build + ".jar")));
-//
-//            // Read data
-//            byte[] b = new byte[dataInputStream.read()];
-//            int readByte = 0;
-//
-//            while (-1 != (readByte = dataInputStream.read(b))) {
-//                dataOutputStream.write(b, 0, readByte);
-//            }
-//
-//            // Close
-//            dataOutputStream.close();
-//            dataInputStream.close();
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
     }
 }
 

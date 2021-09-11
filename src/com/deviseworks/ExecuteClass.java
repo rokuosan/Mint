@@ -14,7 +14,7 @@ public class ExecuteClass {
         String doContents;
 
         while(true) {
-            System.out.print("\n> ");
+            System.out.print("> ");
             doContents = scanner.nextLine();
             // 利用可能なコマンドか列挙型を走査する
             for (ExecutableContentsEnum e : ExecutableContentsEnum.values()) {
@@ -54,9 +54,9 @@ public class ExecuteClass {
         }
 
         String software;
-
+        System.out.print("使用するソフトウェアを選択してください");
         while(true){
-            System.out.print("\n使用するソフトウェアを選択 > ");
+            System.out.print("\n> ");
             software = scanner.nextLine();
             // 入力した文字列がソフトウェアと一致するか列挙型を走査する
             for(SoftwareEnum e: SoftwareEnum.values()){
@@ -75,14 +75,13 @@ public class ExecuteClass {
         JSONObject json;
         JSONArray items;
 
-        // 取得したバージョンリストを表示するメソッドを後々追加してね。
-
         // PAPER の場合（他のソフトウェアと同じかわからないから今はIFで分岐してる）
         if (software.equalsIgnoreCase("paper")) {
             json = paperActions.getVersion(false);
             String tempVersion;
+            System.out.print("使用するバージョンを入力してください (listで一覧表示)");
             while (true) {
-                System.out.print("\n使用するバージョンを入力 (listで一覧表示): ");
+                System.out.print("\n> ");
                 tempVersion = scanner.nextLine();
                 items = json.getJSONArray("versions");
                 if (tempVersion.equalsIgnoreCase("list")) {
@@ -108,7 +107,7 @@ public class ExecuteClass {
             }
         }
 
-        return "ERROR";
+        return software;
     }
 
 //    ビルド選択
@@ -126,8 +125,9 @@ public class ExecuteClass {
            items = json.getJSONArray("builds");
 
            // 実行内容
+           System.out.print("使用するビルドを入力してください (listで一覧表示)");
            while(true) {
-               System.out.print("\n使用するビルドを入力(listで一覧表示): ");
+               System.out.print("\n> ");
                tempBuild = scanner.nextLine();
                if(tempBuild.equalsIgnoreCase("list")){
                    System.out.println("[=]");

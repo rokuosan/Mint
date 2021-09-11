@@ -14,12 +14,15 @@ public class ExecuteClass {
         String doContents;
 
         while(true) {
-            System.out.print("\nなにを実行しますか？ (helpと入力して一覧を表示):");
+            System.out.print("\n> ");
             doContents = scanner.nextLine();
             for (ExecutableContentsEnum e : ExecutableContentsEnum.values()) {
                 if (doContents.equalsIgnoreCase(e.name())) {
                     return doContents;
                 }
+            }
+            for(ExecutableContentsEnum content: ExecutableContentsEnum.values()){
+                System.out.println("\t" + content.ordinal() + ", " + content);
             }
         }
     }
@@ -44,9 +47,9 @@ public class ExecuteClass {
     public String selectSoftware(){
         Scanner scanner = new Scanner(System.in); // Create Scanner Class
         System.out.println();
-        for(ServerSoftwareEnum software: ServerSoftwareEnum.values()){ // 画面表示
-            System.out.print(software.ordinal() + ", ");
-            System.out.println(software);
+        for(SoftwareEnum e: SoftwareEnum.values()){
+            System.out.println(e.ordinal() + ", " + e);
+            System.out.println("\t" + e.getDescription());
         }
         System.out.print("\nどれを使用しますか？: ");
 
@@ -55,10 +58,10 @@ public class ExecuteClass {
         boolean flag = true;
         do {
             software = scanner.nextLine();
-            for (ServerSoftwareEnum s : ServerSoftwareEnum.values()) {
+            for (SoftwareEnum s : SoftwareEnum.values()) {
                 if (software.equalsIgnoreCase(s.toString()) || software.equalsIgnoreCase(String.valueOf(s.toString().charAt(0))) || software.equalsIgnoreCase(String.valueOf(s.ordinal()))) {
                     flag=false;
-                    software = s.name();
+                    software = s.toString();
                 }
             }
             if(flag) {

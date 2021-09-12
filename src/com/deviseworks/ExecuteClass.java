@@ -39,7 +39,18 @@ public class ExecuteClass {
                 downloadServer(software, version, build); // サーバーをダウンロード
             }
             case "uninstall" -> System.out.println("現在制作中です");
-            case "setting" -> System.out.println("現在制作中です。");
+            case "setting" -> {
+                String option;
+                boolean flag = true;
+                do {
+                    SettingClass setting = new SettingClass();
+                    option = setting.selectSetting(flag);
+                    System.out.println();
+                    setting.parseSetting(option);
+                    System.out.println();
+                    flag = false;
+                }while(!option.equalsIgnoreCase("exit"));
+            }
         }
     }
 

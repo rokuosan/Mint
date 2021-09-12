@@ -110,7 +110,7 @@ public class PaperActionsClass {
                 if(confirm.equalsIgnoreCase("yes") || confirm.equalsIgnoreCase("y")){
                     break;
                 }else{
-                    System.out.println("キャンセルしました");
+                    System.out.println("キャンセルしました\n");
                     return;
                 }
             }
@@ -151,7 +151,7 @@ public class PaperActionsClass {
             System.out.print("\t- テスト用起動バッチファイルを作成中...");
             Files.createFile(Paths.get(check + "/start.bat"));
             FileWriter fileWriter = new FileWriter(check + "/start.bat"); //書き込みオブジェクト
-            fileWriter.write("@echo off\r\njava -Xmx4G -Xms4G -server -jar paper-" + version + "-" + build + ".jar nogui\r\npause");
+            fileWriter.write("@echo off\r\njava -Xmx" + SettingClass.getMaxMemory() + "G -Xms" + SettingClass.getMinMemory() + "G -server -jar paper-" + version + "-" + build + ".jar nogui\r\npause");
             fileWriter.close(); // 終了
             System.out.println("[完了]");
         }catch (IOException e) {

@@ -67,7 +67,7 @@ public class ExecuteClass {
         String software;
         System.out.print("使用するソフトウェアを選択してください");
         while(true){
-            System.out.print("\n> ");
+            System.out.print("\nSELECT_SOFTWARE> ");
             software = scanner.nextLine();
             // 入力した文字列がソフトウェアと一致するか列挙型を走査する
             for(SoftwareEnum e: SoftwareEnum.values()){
@@ -92,7 +92,7 @@ public class ExecuteClass {
             String tempVersion;
             System.out.print("使用するバージョンを入力してください (listで一覧表示)");
             while (true) {
-                System.out.print("\n> ");
+                System.out.print("\nSELECT_VERSION> ");
                 tempVersion = scanner.nextLine();
                 items = json.getJSONArray("versions");
                 if (tempVersion.equalsIgnoreCase("list")) {
@@ -138,7 +138,7 @@ public class ExecuteClass {
            // 実行内容
            System.out.print("使用するビルドを入力してください (listで一覧表示)");
            while(true) {
-               System.out.print("\n> ");
+               System.out.print("\nSELECT_BUILD> ");
                tempBuild = scanner.nextLine();
                if(tempBuild.equalsIgnoreCase("list")){
                    System.out.println("[=]");

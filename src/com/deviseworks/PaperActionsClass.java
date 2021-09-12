@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 import org.json.JSONObject;
 
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static java.lang.System.out;
 
 public class PaperActionsClass {
 //    TODO
@@ -35,7 +35,7 @@ public class PaperActionsClass {
         // リクエストの送信
         if(isAsync) {
         // 非同期処理(未完成)
-            client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept(res -> System.out.println(res.body()));
+            client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept(res -> out.println(res.body()));
             try {
                 Thread.sleep(3000);
             } catch (InterruptedException e) {
@@ -43,14 +43,14 @@ public class PaperActionsClass {
             }
         }else{
         // 同期処理
-            System.out.print("\t- バージョンを取得しています...");
+            out.print("\t- バージョンを取得しています...");
             try {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                System.out.println("[完了]\n");
+                out.println("[完了]\n");
             } catch (IOException | InterruptedException e) {
 //                e.printStackTrace();
-                System.out.println("[失敗]");
-                System.out.println("\n\t- リクエストに失敗しました。インターネットに接続されているか確認してください。\n");
+                out.println("[失敗]");
+                out.println("\n\t- リクエストに失敗しました。インターネットに接続されているか確認してください。\n");
             }
         }
 
@@ -70,21 +70,21 @@ public class PaperActionsClass {
         HttpResponse<String> response = null;
 
         if(isAsync){ // 非同期は未完成なので使わない
-            client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept(res -> System.out.println(res.body()));
+            client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept(res -> out.println(res.body()));
             try{
                 Thread.sleep(3000);
             }catch (InterruptedException e){
                 e.printStackTrace();
             }
         }else{
-            System.out.print("\t- ビルドを取得しています...");
+            out.print("\t- ビルドを取得しています...");
             try {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                System.out.println("[完了]\n");
+                out.println("[完了]\n");
             } catch (IOException | InterruptedException e) {
 //                e.printStackTrace();
-                System.out.println("[失敗]");
-                System.out.println("\n\t- リクエストに失敗しました。インターネットに接続されているか確認してください。\n");
+                out.println("[失敗]");
+                out.println("\n\t- リクエストに失敗しました。インターネットに接続されているか確認してください。\n");
             }
         }
 
@@ -95,22 +95,23 @@ public class PaperActionsClass {
     public void download(String version, String build){
         // Scanner クラス作成
         Scanner scanner = new Scanner(System.in);
+        MediaUtilitiesClass util = new MediaUtilitiesClass();
 
         // 完全なURI作成
         String full_uri = "https://papermc.io/api/v2/projects/paper/versions/" + version + "/builds/" + build + "/downloads/paper-" + version + "-" + build + ".jar";
 
         // 生成したリンクの確認とダウンロードの承認
-        System.out.print("\t- 以下のリンクからソフトウェアをダウンロードします。\n\t- ");
-        System.out.println(full_uri);
+        out.print("\t- 以下のリンクからソフトウェアをダウンロードします。\n\t- ");
+        out.println(full_uri);
         String confirm; // 承認用変数
         while(true){
-            System.out.println("\nよろしいですか？(yes/no): ");
+            out.println("\nよろしいですか？(yes/no): ");
             confirm = scanner.nextLine();
             if(!confirm.isBlank()){
                 if(confirm.equalsIgnoreCase("yes") || confirm.equalsIgnoreCase("y")){
                     break;
                 }else{
-                    System.out.println("キャンセルしました\n");
+                    out.println("キャンセルしました\n");
                     return;
                 }
             }
@@ -137,29 +138,25 @@ public class PaperActionsClass {
 
         // 取得
         try {
-            System.out.print("\n\t- ダウンロード中です...");
+            out.print("\n\t- ダウンロード中です...");
             URL url = new URL(full_uri);
-            Path path = Paths.get(check + "/paper-" + version + "-" + build + ".jar");
-            Files.copy(url.openStream(), path, REPLACE_EXISTING);
-            System.out.println("[完了]");
+            util.downloadFile(url, check);
+            out.println("[完了]");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
         // 起動用バッチファイル作成
         try {
-            System.out.print("\t- テスト用起動バッチファイルを作成中...");
+            out.print("\t- テスト用起動バッチファイルを作成中...");
             Files.createFile(Paths.get(check + "/start.bat"));
             FileWriter fileWriter = new FileWriter(check + "/start.bat"); //書き込みオブジェクト
             fileWriter.write("@echo off\r\njava -Xmx" + SettingClass.getMaxMemory() + "G -Xms" + SettingClass.getMinMemory() + "G -server -jar paper-" + version + "-" + build + ".jar nogui\r\npause");
             fileWriter.close(); // 終了
-            System.out.println("[完了]");
-            System.out.println("\t- サーバーを起動するには " + check + "\\start.bat を起動してください");
+            out.println("[完了]");
+            out.println("\t- サーバーを起動するには " + check + "\\start.bat を起動してください");
         }catch (IOException e) {
             e.printStackTrace();
         }
     }
 }
-
-//https://papermc.io/api/v2/projects/paper/versions/1.17.1/builds/250/downloads/paper-1.17.1-250.jar
-//https://maven.minecraftforge.net/net/minecraftforge/forge/1.17.1-37.0.53/forge-1.17.1-37.0.53-installer.jar

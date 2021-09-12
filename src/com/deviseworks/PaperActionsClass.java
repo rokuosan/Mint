@@ -46,12 +46,12 @@ public class PaperActionsClass {
             System.out.print("\t- バージョンを取得しています...");
             try {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                System.out.println("[完了]\n");
             } catch (IOException | InterruptedException e) {
 //                e.printStackTrace();
                 System.out.println("[失敗]");
                 System.out.println("\n\t- リクエストに失敗しました。インターネットに接続されているか確認してください。\n");
             }
-            System.out.println("[完了]");
         }
 
         return new JSONObject(Objects.requireNonNull(response).body());
@@ -80,7 +80,7 @@ public class PaperActionsClass {
             System.out.print("\t- ビルドを取得しています...");
             try {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                System.out.println("[完了]");
+                System.out.println("[完了]\n");
             } catch (IOException | InterruptedException e) {
 //                e.printStackTrace();
                 System.out.println("[失敗]");
@@ -154,6 +154,7 @@ public class PaperActionsClass {
             fileWriter.write("@echo off\r\njava -Xmx" + SettingClass.getMaxMemory() + "G -Xms" + SettingClass.getMinMemory() + "G -server -jar paper-" + version + "-" + build + ".jar nogui\r\npause");
             fileWriter.close(); // 終了
             System.out.println("[完了]");
+            System.out.println("\t- サーバーを起動するには " + check + "\\start.bat を起動してください");
         }catch (IOException e) {
             e.printStackTrace();
         }

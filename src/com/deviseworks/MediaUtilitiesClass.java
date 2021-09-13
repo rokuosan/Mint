@@ -15,9 +15,27 @@ public class MediaUtilitiesClass {
 //        Files.copy(url.openStream(), Paths.get(name), REPLACE_EXISTING);
 //    }
 
-    public void downloadFile(URL url, Path path) throws IOException {
+    public boolean downloadFile(URL url, Path path){
         String urlPath = url.getPath();
         String name = urlPath.substring(urlPath.lastIndexOf("/") +1);
-        Files.copy(url.openStream(), Paths.get(path + "/" + name), REPLACE_EXISTING);
+        try {
+            Files.copy(url.openStream(), Paths.get(path + "/" + name), REPLACE_EXISTING);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
+    }
+
+    public boolean checkDirectory(Path path){
+        return !Files.exists(path);
+    }
+
+    public boolean createDirectory(Path path){
+        try {
+            Files.createFile(path);
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 }

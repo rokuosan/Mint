@@ -1,6 +1,7 @@
 package com.deviseworks;
 
 import java.io.*;
+import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.http.HttpClient;
@@ -137,12 +138,17 @@ public class PaperActionsClass {
         }
 
         // 取得
+        URL url;
         try {
+            url = new URL(full_uri);
             out.print("\n\t- ダウンロード中です...");
-            URL url = new URL(full_uri);
-            util.downloadFile(url, check);
-            out.println("[完了]");
-        } catch (IOException e) {
+            if(util.downloadFile(url, check)){
+                out.println("[完了]");
+            }else {
+                out.println("失敗");
+                return;
+            }
+        } catch (MalformedURLException e) {
             e.printStackTrace();
         }
 

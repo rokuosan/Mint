@@ -8,7 +8,7 @@ public class Main {
 
         if(args.length == 0) {
             // 起動時メッセージ
-            System.out.println("Instant Instance v0.0.4-dev");
+            System.out.println("Instant Instance v0.0.5-dev");
             System.out.println("Type help to show command list\n");
 
             // 実行内容を選択

@@ -13,7 +13,7 @@ public class CuberiteActionsClass {
 
         // ダウンロードURLの指定
         URL download_url;
-        System.out.println("\t- アーキテクチャを取得中...");
+        System.out.print("\t- アーキテクチャを取得中...");
         final String arch = System.getProperty("os.arch").toLowerCase();
         try {
             if (arch.equalsIgnoreCase("amd64")) {
@@ -49,20 +49,20 @@ public class CuberiteActionsClass {
             }
         }
 
+        // ダウンロード
+        System.out.print("\n以下のリンクからダウンロードを行います\n\t- " + download_url + "\n\nよろしいですか？(Y/n): ");
+        String confirm = scanner.nextLine();
+        if(!(confirm.equalsIgnoreCase("yes") || confirm.equalsIgnoreCase("y"))){
+            System.out.println("\t- キャンセルしました");
+            return;
+        }
+
         // ディレクトリ作成
         if(util.createDirectory(full_path)){
             System.out.println("\t- ディレクトリを作成");
             System.out.println("\t- " + full_path);
         }else{
             System.out.println("\t- ディレクトリの作成に失敗しました");
-            return;
-        }
-
-        // ダウンロード
-        System.out.print("\n以下のリンクからダウンロードを行います\n\t- " + download_url + "\n\nよろしいですか？(Y/n): ");
-        String confirm = scanner.nextLine();
-        if(!(confirm.equalsIgnoreCase("yes") || confirm.equalsIgnoreCase("y"))){
-            System.out.println("\t- キャンセルしました");
             return;
         }
 

@@ -2,8 +2,8 @@ package com.deviseworks;
 
 import java.util.Scanner;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.JSONArray;
 
 public class ExecuteClass {
 //    実行内容選択関数

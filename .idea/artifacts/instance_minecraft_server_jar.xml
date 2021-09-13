@@ -1,9 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" name="instance_minecraft_server:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/instance_minecraft_server_jar</output-path>
-    <root id="archive" name="instance_minecraft_server.jar">
-      <element id="module-output" name="instance_minecraft_server" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/.idea/libraries/json-20210307.jar" path-in-jar="/" />
-    </root>
-  </artifact>
-</component>

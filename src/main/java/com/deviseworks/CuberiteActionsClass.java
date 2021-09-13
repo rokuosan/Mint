@@ -1,7 +1,12 @@
 package com.deviseworks;
 
+import net.lingala.zip4j.ZipFile;
+import net.lingala.zip4j.exception.ZipException;
+
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
@@ -35,13 +40,13 @@ public class CuberiteActionsClass {
 
         // ダウンロード先を指定
         Path current = Paths.get("").toAbsolutePath();
-        Path full_path = Paths.get(current + "/Cuberite/");
+        Path full_path;
 
         int tag = 100;
 
         System.out.print("\t- インストールディレクトリをサーチ中...");
         while(true){
-            full_path = Paths.get(full_path + "/" + tag);
+            full_path = Paths.get(current + "/Cuberite/" + tag);
             if(util.checkDirectory(full_path)){
                 break;
             }else{
@@ -75,6 +80,24 @@ public class CuberiteActionsClass {
         }
 
         // 解凍
-
+        // URLからファイル名を取得
+        String filename = download_url.getPath().substring(download_url.getPath().lastIndexOf("/") +1);
+        String filepath = full_path + "/" + filename;
+        System.out.print("\t- ファイルを解凍中...");
+        try {
+            new ZipFile(filepath).extractAll(full_path.toString());
+            System.out.println("[完了]");
+        } catch (ZipException e) {
+            System.out.println("[失敗]");
+            e.printStackTrace();
+        }
+        // 解凍後の圧縮データを削除する
+        System.out.print("\t- 圧縮データを削除中...");
+        try {
+            Files.delete(Paths.get(filepath));
+            System.out.println("[完了]");
+        } catch (IOException e) {
+            System.out.println("[失敗]");
+        }
     }
 }

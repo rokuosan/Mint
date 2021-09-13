@@ -32,7 +32,7 @@ public class MediaUtilitiesClass {
 
     public boolean createDirectory(Path path){
         try {
-            Files.createFile(path);
+            Files.createDirectories(path);
             return true;
         } catch (IOException e) {
             return false;

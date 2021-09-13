@@ -4,7 +4,6 @@
     <root id="archive" name="instance_minecraft_server.jar">
       <element id="module-output" name="instance_minecraft_server" />
       <element id="extracted-dir" path="$PROJECT_DIR$/.idea/libraries/json-20210307.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/.idea/libraries/oshi-core-5.8.2.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

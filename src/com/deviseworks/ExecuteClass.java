@@ -83,6 +83,7 @@ public class ExecuteClass {
     public String selectVersion(String software) {
         Scanner scanner = new Scanner(System.in);
         PaperActionsClass paperActions = new PaperActionsClass();
+        CuberiteActionsClass cuberiteActions = new CuberiteActionsClass();
         JSONObject json;
         JSONArray items;
 
@@ -116,6 +117,8 @@ public class ExecuteClass {
                     }
                 }
             }
+        }else if(software.equalsIgnoreCase("cuberite")){
+            cuberiteActions.download();
         }
 
         return software;

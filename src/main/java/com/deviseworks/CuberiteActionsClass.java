@@ -55,7 +55,7 @@ public class CuberiteActionsClass {
         }
 
         // ダウンロード
-        System.out.print("\n以下のリンクからダウンロードを行います\n\t- " + download_url + "\n\nよろしいですか？(Y/n): ");
+        System.out.print("\n\t以下のリンクからダウンロードを行います\n\t- " + download_url + "\n\nよろしいですか？(Y/n): ");
         String confirm = scanner.nextLine();
         if(!(confirm.equalsIgnoreCase("yes") || confirm.equalsIgnoreCase("y"))){
             System.out.println("\t- キャンセルしました");

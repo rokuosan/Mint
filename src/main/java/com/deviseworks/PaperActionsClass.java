@@ -44,7 +44,7 @@ public class PaperActionsClass {
             }
         }else{
         // 同期処理
-            out.print("\t- バージョンを取得しています...");
+            out.print("\n\t- バージョンを取得しています...");
             try {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
                 out.println("[完了]\n");

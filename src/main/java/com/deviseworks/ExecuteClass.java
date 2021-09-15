@@ -1,5 +1,6 @@
 package com.deviseworks;
 
+import java.util.Objects;
 import java.util.Scanner;
 
 import org.json.JSONObject;
@@ -35,6 +36,9 @@ public class ExecuteClass {
             case "install" -> {
                 String software = selectSoftware(); //ソフトウェアの選択
                 String version = selectVersion(software); //バージョンの選択
+                if("ERROR".equalsIgnoreCase(version)){
+                    return;
+                }
                 String build = selectBuild(software, version); //ビルド番号の選択
                 downloadServer(software, version, build); // サーバーをダウンロード
             }
@@ -90,6 +94,9 @@ public class ExecuteClass {
         // PAPER の場合（他のソフトウェアと同じかわからないから今はIFで分岐してる）
         if (software.equalsIgnoreCase("paper")) {
             json = paperActions.getVersion(false);
+            if(Objects.isNull(json)){
+                return "ERROR";
+            }
             String tempVersion;
             System.out.print("使用するバージョンを入力してください (listで一覧表示)");
             while (true) {

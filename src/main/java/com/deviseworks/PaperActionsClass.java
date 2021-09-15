@@ -10,6 +10,7 @@ import java.net.http.HttpResponse;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.Duration;
 import java.util.Objects;
 import java.util.Scanner;
 
@@ -28,34 +29,35 @@ public class PaperActionsClass {
     // バージョンを取得して一覧表示する
     public JSONObject getVersion(boolean isAsync){
         // HttpClient の作成
-        HttpClient client = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).build();
+        HttpClient client = HttpClient.newBuilder().version(HttpClient.Version.HTTP_2).connectTimeout(Duration.ofSeconds(20)).build();
         // HttpRequest の作成
         HttpRequest request = HttpRequest.newBuilder().uri(URI.create("https://papermc.io/api/v2/projects/paper/")).build();
         // HTTPResponse の作成
-        HttpResponse<String> response = null;
+        HttpResponse<String> response;
         // リクエストの送信
-        if(isAsync) {
-        // 非同期処理(未完成)
-            client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept(res -> out.println(res.body()));
-            try {
-                Thread.sleep(3000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }else{
+//        if(isAsync) {
+//        // 非同期処理(未完成)
+//            client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept(res -> out.println(res.body()));
+//            try {
+//                Thread.sleep(3000);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
+//        }else{
         // 同期処理
             out.print("\n\t- バージョンを取得しています...");
             try {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
                 out.println("[完了]\n");
-            } catch (IOException | InterruptedException e) {
-//                e.printStackTrace();
+                return new JSONObject(Objects.requireNonNull(response).body());
+            } catch (IOException e) {
                 out.println("[失敗]");
-                out.println("\n\t- リクエストに失敗しました。インターネットに接続されているか確認してください。\n");
+                out.println("\t- リクエストに失敗しました。インターネットに接続されているか確認してください。\n");
+                return null;
+            } catch (InterruptedException e) {
+                return null;
             }
-        }
-
-        return new JSONObject(Objects.requireNonNull(response).body());
+        //}
     }
 
 //    ビルド取得
@@ -106,7 +108,7 @@ public class PaperActionsClass {
         out.println(full_uri);
         String confirm; // 承認用変数
         while(true){
-            out.println("\nよろしいですか？(yes/no): ");
+            out.print("\nよろしいですか？(yes/no): ");
             confirm = scanner.nextLine();
             if(!confirm.isBlank()){
                 if(confirm.equalsIgnoreCase("yes") || confirm.equalsIgnoreCase("y")){

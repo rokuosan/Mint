@@ -35,15 +35,16 @@ public class PaperActionsClass {
         // HTTPResponse の作成
         HttpResponse<String> response;
         // リクエストの送信
-//        if(isAsync) {
-//        // 非同期処理(未完成)
-//            client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept(res -> out.println(res.body()));
-//            try {
-//                Thread.sleep(3000);
-//            } catch (InterruptedException e) {
-//                e.printStackTrace();
-//            }
-//        }else{
+        if(isAsync) {
+        // 非同期処理(未完成)
+            client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept(res -> out.println(res.body()));
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            return null; //非同期に対応したときにこの行を削除
+        }else{
         // 同期処理
             out.print("\n\t- バージョンを取得しています...");
             try {
@@ -57,7 +58,7 @@ public class PaperActionsClass {
             } catch (InterruptedException e) {
                 return null;
             }
-        //}
+        }
     }
 
 //    ビルド取得

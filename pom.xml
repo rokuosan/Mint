@@ -6,7 +6,7 @@
 
     <groupId>com.deviseworks.rokuo</groupId>
     <artifactId>instance_minecraft_server</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.6-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>16</maven.compiler.source>

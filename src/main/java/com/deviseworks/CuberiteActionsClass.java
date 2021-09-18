@@ -3,7 +3,9 @@ package com.deviseworks;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -20,21 +22,46 @@ public class CuberiteActionsClass {
         URL download_url;
         System.out.print("\t- アーキテクチャを取得中...");
         final String arch = System.getProperty("os.arch").toLowerCase();
-        try {
-            if (arch.equalsIgnoreCase("amd64")) {
-                System.out.println("[64bit]");
-                download_url = new URL("https://download.cuberite.org/windows-x86_64/Cuberite.zip");
-            }else if(arch.equalsIgnoreCase("x86")){
-                System.out.println("[32bit]");
-                download_url = new URL("https://download.cuberite.org/windows-i386/Cuberite.zip");
-            }else{
-                System.out.println("[UNKNOWN]");
-                System.out.println("\t- アーキテクチャ取得に失敗");
+
+        if(util.isWindows()) {
+            try {
+                if (arch.equalsIgnoreCase("amd64")) {
+                    System.out.println("[64bit]");
+                    download_url = new URL("https://download.cuberite.org/windows-x86_64/Cuberite.zip");
+                } else if (arch.equalsIgnoreCase("x86")) {
+                    System.out.println("[32bit]");
+                    download_url = new URL("https://download.cuberite.org/windows-i386/Cuberite.zip");
+                } else {
+                    System.out.println("[UNKNOWN]");
+                    System.out.println("\t- アーキテクチャ取得に失敗");
+                    return;
+                }
+                System.out.println("\t- ダウンロードリンクを更新しました");
+            } catch (MalformedURLException e) {
+                System.out.println("[失敗]\n\t- アーキテクチャ取得に失敗");
                 return;
             }
-            System.out.println("\t- ダウンロードリンクを更新しました");
-        }catch(MalformedURLException e){
-            System.out.println("[失敗]\n\t- アーキテクチャ取得に失敗");
+        }else if(util.isLinux()){
+            try {
+                if (arch.equalsIgnoreCase("amd64")) {
+                    System.out.println("[64bit]");
+                    download_url = new URL("https://download.cuberite.org/linux-x86_64/Cuberite.tar.gz");
+                } else if (arch.equalsIgnoreCase("x86")) {
+                    System.out.println("[32bit]");
+                    download_url = new URL("https://download.cuberite.org/linux-i386/Cuberite.tar.gz");
+                } else {
+                    System.out.println("[UNKNOWN]");
+                    System.out.println("\t- アーキテクチャ取得に失敗");
+                    return;
+                }
+                System.out.println("\t- ダウンロードリンクを更新しました");
+            } catch (MalformedURLException e) {
+                System.out.println("[失敗]\n\t- アーキテクチャ取得に失敗");
+                return;
+            }
+        }else{
+            System.out.println("[失敗]");
+            System.out.println("\t- Windows/Linuxのみサポートしています");
             return;
         }
 
@@ -55,7 +82,7 @@ public class CuberiteActionsClass {
         }
 
         // ダウンロード
-        System.out.print("\n\t以下のリンクからダウンロードを行います\n\t- " + download_url + "\n\nよろしいですか？(Y/n): ");
+        System.out.print("\n\t- 以下のリンクからダウンロードを行います\n\t- " + download_url + "\n\nよろしいですか？(Y/n): ");
         String confirm = scanner.nextLine();
         if(!(confirm.equalsIgnoreCase("yes") || confirm.equalsIgnoreCase("y"))){
             System.out.println("\t- キャンセルしました");
@@ -83,21 +110,54 @@ public class CuberiteActionsClass {
         // URLからファイル名を取得
         String filename = download_url.getPath().substring(download_url.getPath().lastIndexOf("/") +1);
         String filepath = full_path + "/" + filename;
-        System.out.print("\t- ファイルを解凍中...");
-        try {
-            new ZipFile(filepath).extractAll(full_path.toString());
-            System.out.println("[完了]");
-        } catch (ZipException e) {
-            System.out.println("[失敗]");
-            e.printStackTrace();
-        }
-        // 解凍後の圧縮データを削除する
-        System.out.print("\t- 圧縮データを削除中...");
-        try {
-            Files.delete(Paths.get(filepath));
-            System.out.println("[完了]");
-        } catch (IOException e) {
-            System.out.println("[失敗]");
+        boolean isSuccess = false;
+        if(util.isWindows()) {
+            System.out.print("\t- ファイルを解凍中...");
+            try {
+                new ZipFile(filepath).extractAll(full_path.toString());
+                System.out.println("[完了]");
+                isSuccess = true;
+            } catch (ZipException e) {
+                System.out.println("[失敗]");
+                e.printStackTrace();
+            }
+            // 解凍後の圧縮データを削除する
+            if (isSuccess) {
+                System.out.print("\t- 圧縮データを削除中...");
+                try {
+                    Files.delete(Paths.get(filepath));
+                    System.out.println("[完了]");
+                } catch (IOException e) {
+                    System.out.println("[失敗]");
+                }
+            }
+        }else if(util.isLinux()){
+            System.out.println("\t- ファイルを解凍します...");
+            try {
+                Runtime runtime = Runtime.getRuntime();
+                Process result = runtime.exec("tar -zxvf " + filepath + " -C " + full_path + "/");
+                BufferedReader br = new BufferedReader(new InputStreamReader(result.getInputStream()));
+                while (true) {
+                    String line = br.readLine();
+                    if (line == null) {
+                        break;
+                    }
+                    System.out.println("\t- " + line);
+                }
+                isSuccess = true;
+                System.out.println("\t- 解凍が完了しました");
+            }catch(Exception e){
+                System.out.println("\t- 解凍に失敗しました");
+            }
+            if(isSuccess){
+                System.out.print("\t- 圧縮ファイルを削除します...");
+                try {
+                    Files.delete(Paths.get(filepath));
+                    System.out.println("[完了]");
+                } catch (IOException e) {
+                    System.out.println("[失敗]");
+                }
+            }
         }
     }
 }

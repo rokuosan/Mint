@@ -38,4 +38,13 @@ public class MediaUtilitiesClass {
             return false;
         }
     }
+
+    public boolean isWindows(){
+        final String OS_NAME = System.getProperty("os.name").toLowerCase();
+        return OS_NAME.startsWith("windows");
+    }
+    public boolean isLinux(){
+        final String OS_NAME = System.getProperty("os.name").toLowerCase();
+        return OS_NAME.startsWith("linux");
+    }
 }

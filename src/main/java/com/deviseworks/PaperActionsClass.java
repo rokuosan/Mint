@@ -149,16 +149,31 @@ public class PaperActionsClass {
         }
 
         // 起動用バッチファイル作成
-        try {
+        if(util.isWindows()){
             out.print("\t- テスト用起動バッチファイルを作成中...");
-            Files.createFile(Paths.get(check + "/start.bat"));
-            FileWriter fileWriter = new FileWriter(check + "/start.bat"); //書き込みオブジェクト
-            fileWriter.write("@echo off\r\njava -Xmx" + SettingClass.getMaxMemory() + "G -Xms" + SettingClass.getMinMemory() + "G -server -jar paper-" + version + "-" + build + ".jar nogui\r\npause");
-            fileWriter.close(); // 終了
-            out.println("[完了]");
-            out.println("\t- サーバーを起動するには " + check + "\\start.bat を起動してください");
-        }catch (IOException e) {
-            e.printStackTrace();
+            try {
+                Files.createFile(Paths.get(check + "/start.bat"));
+                FileWriter fileWriter = new FileWriter(check + "/start.bat"); //書き込みオブジェクト
+                fileWriter.write("@echo off\r\njava -Xmx" + SettingClass.getMaxMemory() + "G -Xms" + SettingClass.getMinMemory() + "G -server -jar paper-" + version + "-" + build + ".jar nogui\r\npause");
+                fileWriter.close(); // 終了
+                out.println("[完了]");
+                out.println("\t- サーバーを起動するには " + check + "\\start.bat を起動してください");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else if(util.isLinux()){
+            out.print("\t- テスト起動用スクリプトを作成中...");
+            try {
+                Files.createFile(Paths.get(check + "/start.sh"));
+                FileWriter fw = new FileWriter(check + "/start.sh");
+                fw.write("#!/bin/bash\r\njava -Xmx" + SettingClass.getMaxMemory() + "G -Xms" + SettingClass.getMinMemory() + "G -server -jar paper-" + version + "-" + build + ".jar nogui");
+                out.println("[完了]");
+                out.println("\t- サーバーを起動するには " + check + "/start.sh を起動してください");
+            }catch (IOException e){
+                e.printStackTrace();
+            }
+        }else{
+            out.println("\t- 起動用スクリプトは作成されませんでした");
         }
     }
 }

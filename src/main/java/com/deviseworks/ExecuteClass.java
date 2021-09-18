@@ -69,7 +69,7 @@ public class ExecuteClass {
         }
 
         String software;
-        System.out.print("使用するソフトウェアを選択してください");
+        System.out.print("\n使用するソフトウェアを選択してください");
         while(true){
             System.out.print("\nSELECT_SOFTWARE> ");
             software = scanner.nextLine();

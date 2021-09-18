@@ -166,7 +166,8 @@ public class PaperActionsClass {
             try {
                 Files.createFile(Paths.get(check + "/start.sh"));
                 FileWriter fw = new FileWriter(check + "/start.sh");
-                fw.write("#!/bin/bash\r\njava -Xmx" + SettingClass.getMaxMemory() + "G -Xms" + SettingClass.getMinMemory() + "G -server -jar paper-" + version + "-" + build + ".jar nogui");
+                fw.write("#!/bin/bash\njava -Xmx" + SettingClass.getMaxMemory() + "G -Xms" + SettingClass.getMinMemory() + "G -server -jar paper-" + version + "-" + build + ".jar nogui\n");
+                fw.close();
                 out.println("[完了]");
                 out.println("\t- サーバーを起動するには " + check + "/start.sh を起動してください");
             }catch (IOException e){

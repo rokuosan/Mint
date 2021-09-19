@@ -8,7 +8,7 @@ public class Main {
 
         if(args.length == 0) {
             // 起動時メッセージ
-            System.out.println("Instant Instance v0.0.6");
+            System.out.println("Instant Instance v0.0.8-dev");
             System.out.println("ヘルプを表示するにはエンターを押してください\n");
 
             // 実行内容を選択

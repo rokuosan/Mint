@@ -1,5 +1,5 @@
 # Instant Instance Tools For Minecraft Server
-###　~~------------~~ Minecraftサーバーをより簡単に
+###~~------------~~ Minecraftサーバーをより簡単に
 
 ## これはなに？
 

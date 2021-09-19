@@ -7,7 +7,9 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 public class ExecuteClass {
-//    実行内容選択関数
+/*
+ * 実行内容を尋ねる
+ */
     public String askExecuteContents(){
 
         Scanner scanner = new Scanner(System.in);
@@ -29,8 +31,9 @@ public class ExecuteClass {
             }
         }
     }
-
-//    コマンド実行関数
+/*
+* コマンド実行関数
+ */
     public void executeCommand(String command){
         switch (command) {
             case "install" -> {
@@ -88,6 +91,7 @@ public class ExecuteClass {
         Scanner scanner = new Scanner(System.in);
         PaperActionsClass paperActions = new PaperActionsClass();
         CuberiteActionsClass cuberiteActions = new CuberiteActionsClass();
+        MohistActionsClass mohistActions =new MohistActionsClass();
         JSONObject json;
         JSONArray items;
 
@@ -126,6 +130,10 @@ public class ExecuteClass {
             }
         }else if(software.equalsIgnoreCase("cuberite")){
             cuberiteActions.download();
+        }else if(software.equalsIgnoreCase("mohist")){
+            if(!mohistActions.install()){
+                return "ERROR";
+            }
         }
 
         return software;

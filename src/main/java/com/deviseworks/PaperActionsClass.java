@@ -120,7 +120,7 @@ public class PaperActionsClass {
         int tag = 100;
         Path check;
         while(true) {
-            check = Paths.get(current + "/paper/" + version + "/" + tag + "/");
+            check = Paths.get(current + "/Paper/" + version + "/" + tag + "/");
             if(!Files.exists(check)) {
                 try {
                     Files.createDirectories(check);

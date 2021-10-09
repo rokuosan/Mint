@@ -42,7 +42,7 @@ public class PaperActionsClass {
             out.print("\n\t- バージョンを取得しています...");
             try {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                out.println("[完了]\n");
+                out.println("[完了]");
                 return new JSONObject(Objects.requireNonNull(response).body());
             } catch (IOException e) {
                 out.println("[失敗]");
@@ -77,7 +77,7 @@ public class PaperActionsClass {
             out.print("\t- ビルドを取得しています...");
             try {
                 response = client.send(request, HttpResponse.BodyHandlers.ofString());
-                out.println("[完了]\n");
+                out.println("[完了]");
             } catch (IOException | InterruptedException e) {
 //                e.printStackTrace();
                 out.println("[失敗]");
@@ -141,7 +141,7 @@ public class PaperActionsClass {
             if(util.downloadFile(url, check)){
                 out.println("[完了]");
             }else {
-                out.println("失敗");
+                out.println("[失敗]");
                 return;
             }
         } catch (MalformedURLException e) {
@@ -177,4 +177,6 @@ public class PaperActionsClass {
             out.println("\t- 起動用スクリプトは作成されませんでした");
         }
     }
+
+
 }

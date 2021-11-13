@@ -16,7 +16,7 @@ import java.util.List;
 public class Mohist {
     private final String baseApi = "https://mohistmc.com/api/";
 
-    Internet internet = new Internet();
+    private final Internet internet = new Internet();
 
     // Function: getVersions
     public List<String> getVersions(){

@@ -12,9 +12,9 @@ import java.util.List;
 public class Paper {
     private final String api = "https://papermc.io/api/v2/projects/paper/";
 
-    Internet util = new Internet(); // API叩くためのクラス
-    JSONObject json;
-    JSONArray items;
+    private final Internet util = new Internet(); // API叩くためのクラス
+    private JSONObject json;
+    private JSONArray items;
 
     // Function: getVersions
     // Description: Get Supported Versions from Paper API.

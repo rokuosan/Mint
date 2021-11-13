@@ -1,5 +1,7 @@
 package com.deviseworks.util;
 
+import net.lingala.zip4j.ZipFile;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -75,6 +77,45 @@ public class Directory {
             }else{
                 tag++;
             }
+        }
+    }
+
+    // Function: unzip
+    // Argument: filePath
+    public boolean unzip(Path filePath){
+        try{
+            String dest = filePath.toString().substring(0, filePath.toString().lastIndexOf("/")+1);
+            new ZipFile(filePath.toString()).extractAll(dest);
+            this.remove(filePath);
+            return true;
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+    // Function: unTarGz
+    // Argument: filePath
+    public boolean unTarGz(Path filePath){
+        try{
+            String dest = filePath.toString().substring(0, filePath.toString().lastIndexOf("/")+1);
+            Runtime runtime = Runtime.getRuntime();
+            Process result = runtime.exec("tar -zxvf " + filePath + " -C " + dest);
+
+//            もしログに残すならこれを利用してね
+//            BufferedReader br = new BufferedReader(new InputStreamReader(result.getInputStream()));
+//            while(true){
+//                String line = br.readLine();
+//                if(line == null){
+//                    break;
+//                }
+//                System.out.println(line);
+//            }
+
+            this.remove(filePath);
+
+            return true;
+        }catch(Exception e){
+            return false;
         }
     }
 }

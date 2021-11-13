@@ -80,6 +80,20 @@ public class Directory {
         }
     }
 
+    public Path seek(Path path, String software){
+        int tag = 100;
+        Path check;
+
+        while(true){
+            check = Paths.get(path + "/" + software  + "/" + tag + "/");
+            if(this.check(check) == 0){ //ディレクトリが存在しない場合 == 作れる場合
+                return check;
+            }else{
+                tag++;
+            }
+        }
+    }
+
     // Function: unzip
     // Argument: filePath
     public boolean unzip(Path filePath){

@@ -9,9 +9,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class Cuberite {
-    Machine machine = new Machine();
-    Internet internet = new Internet();
-    Directory directory = new Directory();
+    private final Machine machine = new Machine();
+    private final Internet internet = new Internet();
+    private final Directory directory = new Directory();
     private String extType = null;
 
     // Function: setLink()

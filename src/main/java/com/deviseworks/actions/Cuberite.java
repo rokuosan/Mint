@@ -4,7 +4,6 @@ import com.deviseworks.util.Directory;
 import com.deviseworks.util.Internet;
 import com.deviseworks.util.Machine;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -13,15 +12,13 @@ public class Cuberite {
     Machine machine = new Machine();
     Internet internet = new Internet();
     Directory directory = new Directory();
-    String machineType = null;
-    String machineArch = null;
-    String extType = null;
-    String downloadLink = null;
+    private String extType = null;
 
     // Function: setLink()
     // Description: Set the link to download Cuberite Archive.
     public URL setLink(){
         // OSを確定する。Windows以外の場合はLinuxとして扱う。Macユーザーは知らね。
+        String machineType;
         if(machine.isWindows()){
             machineType = "windows";
             extType = ".zip";
@@ -31,6 +28,7 @@ public class Cuberite {
         }
 
         // アーキテクチャを確定する。判定できない場合は32bitとして扱う。
+        String machineArch;
         if(machine.is64bit()){
             machineArch = "x86_64";
         }else{
@@ -38,7 +36,7 @@ public class Cuberite {
         }
 
         // リンクを確定する
-        downloadLink = "https://download.cuberite.org/" + machineType + "-" + machineArch + "/Cuberite" + extType;
+        String downloadLink = "https://download.cuberite.org/" + machineType + "-" + machineArch + "/Cuberite" + extType;
         try {
             return new URL(downloadLink);
         } catch (Exception e) {

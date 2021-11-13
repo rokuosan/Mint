@@ -64,12 +64,17 @@ public class Directory {
     // Function: search
     // Argument: Path
     // Description: Find the file or directory.
-//    public boolean seek(String name, Path path){
-//        int tag = 100;
-//        Path check;
-//
-//        while(true){
-//            check = Paths.get(path + name)
-//        }
-//    }
+    public Path seek(Path path, String software, String version){
+        int tag = 100;
+        Path check;
+
+        while(true){
+            check = Paths.get(path + "/" + software + "/" + version + "/" + tag + "/");
+            if(this.check(check) == 0){ //ディレクトリが存在しない場合 == 作れる場合
+                return check;
+            }else{
+                tag++;
+            }
+        }
+    }
 }

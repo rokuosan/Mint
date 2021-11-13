@@ -63,7 +63,7 @@ public class Directory {
         return true; // Doesn't Exists
     }
 
-    // Function: search
+    // Function: seek
     // Argument: Path
     // Description: Find the file or directory.
     public Path seek(Path path, String software, String version){

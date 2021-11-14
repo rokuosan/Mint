@@ -9,12 +9,11 @@ public class Main {
     final static String BUILD = VERSION + "-" + CHANNEL;
 
     public static void main(String[] args) {
+        Settings settings = new Settings();
+        settings.init();
 
         MainAction action = new MainAction();
         if (args.length == 0) {
-            Settings settings = new Settings();
-            settings.init();
-
             // 起動時メッセージ
             System.out.println("Instant Instance " + BUILD + "\n");
             action.dialog();

@@ -98,11 +98,12 @@ public class Directory {
     // Argument: filePath
     public boolean unzip(Path filePath){
         try{
-            String dest = filePath.toString().substring(0, filePath.toString().lastIndexOf("/")+1);
+            String dest = filePath.toString().substring(0, filePath.toString().lastIndexOf("\\"));
             new ZipFile(filePath.toString()).extractAll(dest);
             this.remove(filePath);
             return true;
         }catch (Exception e){
+            e.printStackTrace();
             return false;
         }
     }

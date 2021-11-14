@@ -1,5 +1,8 @@
 package com.deviseworks;
 
+import com.deviseworks.actions.MainAction;
+import com.deviseworks.actions.Settings;
+import com.deviseworks.enumerate.SoftwareEnum;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -10,37 +13,21 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 public class Main {
-    final static String VERSION = "v0.1.0";
+    final static String VERSION = "v0.1.1";
     final static String CHANNEL = "dev";
     final static String BUILD = VERSION + "-" + CHANNEL;
 
     public static void main(String[] args) {
-        ExecuteClass execute;
-        String command;
 
         if (args.length == 0) {
+            MainAction action = new MainAction();
+            Settings settings = new Settings();
+            settings.init();
+
             // 起動時メッセージ
             System.out.println("Instant Instance " + BUILD + "\n");
+            action.dialog();
 
-            // 実行内容を選択
-            while (true) {
-                execute = new ExecuteClass();
-                command = execute.askExecuteContents(); // 実行するコマンドを取り込む
-
-                // 取り込んだコマンドを解析
-                switch (command) {
-                    case "exit" -> {
-                        System.out.println("システムを終了します");
-                        return;
-                    }
-                    case "help" -> {
-                        for (ExecutableContentsEnum content : ExecutableContentsEnum.values()) {
-                            System.out.println("\t" + content.ordinal() + ", " + content);
-                        }
-                    }
-                    default -> execute.executeCommand(command);
-                }
-            }
         } else {
 //            System.out.println("コマンドライン引数には現在対応していません。\nのちのち実装予定です");
             enum State{

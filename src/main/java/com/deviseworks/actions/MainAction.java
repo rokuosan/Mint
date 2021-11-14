@@ -3,7 +3,11 @@ package com.deviseworks.actions;
 import com.deviseworks.enumerate.SettingCommandsEnum;
 import com.deviseworks.enumerate.SoftwareEnum;
 import com.deviseworks.util.Directory;
+import com.deviseworks.util.Internet;
+import com.deviseworks.util.Script;
+import org.json.JSONObject;
 
+import java.net.http.HttpResponse;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -122,6 +126,7 @@ public class MainAction {
                                     if (directory.create(installPath)) {
                                         if (paper.install(installPath, version, build, true)) {
                                             System.out.println("[ Paper ] Complete!");
+                                            new Script().generate(installPath, "paper-"+ version + "-" + build + ".jar");
                                         } else {
                                             System.out.println("[ Paper ] Failed...");
                                         }
@@ -185,6 +190,11 @@ public class MainAction {
                                     if (directory.create(installPath)) {
                                         if (paper.install(installPath, version, build, true)) {
                                             System.out.println("[ Mohist ] Complete!");
+                                            HttpResponse<String> response = new Internet().connectResponse("https://mohistmc.com/api/" + version);
+                                            JSONObject object = new JSONObject(response.body());
+                                            object = object.getJSONObject(build);
+                                            String name = object.getString("name");
+                                            new Script().generate(installPath, name);
                                         } else {
                                             System.out.println("[ Mohist ] Failed...");
                                         }
@@ -473,6 +483,8 @@ public class MainAction {
     }
 
     public boolean flow(String software, String version, String build, String directory, boolean isAutoApprove){
+        Script script = new Script();
+
         List<String> versions = new ArrayList<>();
         List<String> builds = new ArrayList<>();
         if(software.equalsIgnoreCase("paper")){
@@ -560,6 +572,7 @@ public class MainAction {
             if (software.equalsIgnoreCase("paper")) {
                 if (paper.install(installPath, version, build, true)) {
                     System.out.println("[ INSTALL ] Paper was installed to your computer.");
+                    script.generate(installPath, "paper-"+ version + "-" + build + ".jar");
                     return true;
                 } else {
                     System.out.println("[ INSTALL ] Install failed...");
@@ -568,6 +581,11 @@ public class MainAction {
             } else if (software.equalsIgnoreCase("mohist")) {
                 if (mohist.install(installPath, version, build, true)) {
                     System.out.println("[ INSTALL ] Mohist was installed to your computer.");
+                    HttpResponse<String> response = new Internet().connectResponse("https://mohistmc.com/api/" + version);
+                    JSONObject object = new JSONObject(response.body());
+                    object = object.getJSONObject(build);
+                    String name = object.getString("name");
+                    script.generate(installPath, name);
                     return true;
                 } else {
                     System.out.println("[ INSTALL ] Install failed...");

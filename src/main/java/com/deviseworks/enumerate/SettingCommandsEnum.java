@@ -1,4 +1,4 @@
-package com.deviseworks;
+package com.deviseworks.enumerate;
 
 public enum SettingCommandsEnum {
     setMaxMemory("最大使用可能メモリ量"),

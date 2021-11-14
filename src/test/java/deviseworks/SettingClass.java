@@ -1,4 +1,4 @@
-package com.deviseworks;
+package deviseworks;
 
 import java.util.Scanner;
 

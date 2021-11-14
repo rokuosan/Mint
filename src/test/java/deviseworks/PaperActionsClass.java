@@ -1,6 +1,9 @@
-package com.deviseworks;
+package deviseworks;
 
-import java.io.*;
+import org.json.JSONObject;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -13,8 +16,6 @@ import java.nio.file.Paths;
 import java.time.Duration;
 import java.util.Objects;
 import java.util.Scanner;
-
-import org.json.JSONObject;
 
 import static java.lang.System.out;
 

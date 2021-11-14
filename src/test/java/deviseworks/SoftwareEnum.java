@@ -1,4 +1,4 @@
-package com.deviseworks;
+package deviseworks;
 
 public enum SoftwareEnum {
     CUBERITE("+ 独自のコントロールパネルを持ったバニラ向けサーバー"),

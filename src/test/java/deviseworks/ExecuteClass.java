@@ -1,10 +1,10 @@
-package com.deviseworks;
+package deviseworks;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.Objects;
 import java.util.Scanner;
-
-import org.json.JSONObject;
-import org.json.JSONArray;
 
 public class ExecuteClass {
 /*

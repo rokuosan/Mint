@@ -24,6 +24,7 @@ public class Internet {
         try {
             Files.copy(url.openStream(), Paths.get(path + "/" + fileName), REPLACE_EXISTING);
         } catch (IOException e) {
+            e.printStackTrace();
             return false;
         }
 

@@ -437,33 +437,27 @@ public class MainAction {
             software = software.toLowerCase();
 
             switch (software){
-                case "paper" -> {
-                    Paper paper = new Paper();
-                    // バージョン確定
-                    isHit = false;
-                    if(version != null){
-                        List<String> versions = paper.getVersions();
-                        for(String v: versions){
-                            if(v.equalsIgnoreCase(version)){
-                                isHit = true;
-                                break;
-                            }
-                        }
-                        if(!isHit){
-                            System.out.println("\t- 無効なバージョン : " + version);
+                case "paper", "mohist" -> {
+                    if(this.flow(software, version, build, directory, isAutoApprove)){
+                        return 0;
+                    }else{
+                        return 1;
+                    }
+                }
+                case "cuberite" -> {
+                    if(directory != null){
+                        if(new Cuberite().install(Paths.get(directory))){
+                            return 0;
+                        }else{
                             return 1;
                         }
-                    }
+                    }else{
+                        Path installPath = new Directory().seek(Paths.get("").toAbsolutePath(), "Cuberite");
 
-
-
-
-                    if(version == null){
-                        Path path = new Directory().seek(Paths.get("").toAbsolutePath(), "Paper");
-                        if(paper.install(path)){
-                            System.out.println("[ INSTALL ] Paper was installed to your computer.");
+                        if(new Cuberite().install(installPath)){
+                            return 0;
                         }else{
-                            System.out.println("[ INSTALL ] Install failed...");
+                            return 1;
                         }
                     }
                 }
@@ -472,5 +466,124 @@ public class MainAction {
 
 
         return 0;
+    }
+
+    public boolean flow(String software, String version, String build, String directory, boolean isAutoApprove){
+        List<String> versions = new ArrayList<>();
+        List<String> builds = new ArrayList<>();
+        if(software.equalsIgnoreCase("paper")){
+            versions = new Paper().getVersions();
+        }else if(software.equalsIgnoreCase("mohist")){
+            versions = new Mohist().getVersions();
+        }
+
+        if(versions.isEmpty()){
+            return false;
+        }
+
+        // バージョン確定
+        boolean isHit = false;
+        // 指定がある場合
+        if (version != null) {
+            for (String v : versions) {
+                if (v.equalsIgnoreCase(version)) {
+                    isHit = true;
+                    break;
+                }
+            }
+        } else { // ない場合
+            System.out.println("\t- 最新バージョンを使用します");
+            version = versions.get(versions.size() - 1);
+            isHit=true;
+        }
+        // 見つからなかった場合
+        if (!isHit) {
+            System.out.println("\t- 無効なバージョン : " + version);
+            return false;
+        }
+
+        if(software.equalsIgnoreCase("paper")){
+            builds = new Paper().getBuilds(version);
+        }else if(software.equalsIgnoreCase("mohist")){
+            builds = new Mohist().getBuilds(version);
+        }
+
+        if (builds.isEmpty()){
+            return false;
+        }
+
+        // ビルド確定
+        isHit = false;
+        if (build != null) {
+            for (String b : builds) {
+                if (b.equalsIgnoreCase(build)) {
+                    isHit = true;
+                    break;
+                }
+            }
+        } else {
+            System.out.println("\t- 最新ビルドを使用します");
+            build = builds.get(builds.size() - 1);
+            isHit=true;
+        }
+        if (!isHit) {
+            System.out.println("\t- 無効なビルド番号 : " + build);
+            return false;
+        }
+
+        // ディレクトリ
+        Path installPath;
+        Directory dir = new Directory();
+        if (directory != null) {
+            try {
+                installPath = Paths.get(directory);
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("\t- 無効なディレクトリパス");
+                return false;
+            }
+        } else {
+            installPath = dir.seek(Paths.get("").toAbsolutePath(), software);
+        }
+
+        // 確認
+        if (!isAutoApprove) {
+            if(!this.confirm(software, version, build, installPath)){
+                return false;
+            }
+        }
+        if(dir.create(installPath)){
+            if (software.equalsIgnoreCase("paper")) {
+                if (paper.install(installPath, version, build, true)) {
+                    System.out.println("[ INSTALL ] Paper was installed to your computer.");
+                    return true;
+                } else {
+                    System.out.println("[ INSTALL ] Install failed...");
+                    return false;
+                }
+            } else if (software.equalsIgnoreCase("mohist")) {
+                if (mohist.install(installPath, version, build, true)) {
+                    System.out.println("[ INSTALL ] Mohist was installed to your computer.");
+                    return true;
+                } else {
+                    System.out.println("[ INSTALL ] Install failed...");
+                    return false;
+                }
+            }
+        }
+
+
+        return false;
+    }
+
+
+    private boolean confirm(String software, String version, String build, Path installPath){
+        System.out.println("\n以下の構成でインストールします:");
+        System.out.println("\t- ソフトウェア: " + software);
+        System.out.println("\t- バージョン: " + version);
+        System.out.println("\t- ビルド番号: " + build);
+        System.out.println("\t- インストールパス: " + installPath);
+
+        return this.quickConfirm();
     }
 }

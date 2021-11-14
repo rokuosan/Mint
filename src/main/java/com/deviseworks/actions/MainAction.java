@@ -453,11 +453,15 @@ public class MainAction {
                         }
                     }else{
                         Path installPath = new Directory().seek(Paths.get("").toAbsolutePath(), "Cuberite");
-
-                        if(new Cuberite().install(installPath)){
-                            return 0;
-                        }else{
-                            return 1;
+                        System.out.println("\t- パスを取得");
+                        if(new Directory().create(installPath)){
+                            System.out.println("\t- ディレクトリを作成");
+                            System.out.println("\t- インストール開始");
+                            if (new Cuberite().install(installPath)) {
+                                return 0;
+                            } else {
+                                return 1;
+                            }
                         }
                     }
                 }

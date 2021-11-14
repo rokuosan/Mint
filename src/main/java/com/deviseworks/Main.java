@@ -4,7 +4,7 @@ import com.deviseworks.actions.MainAction;
 import com.deviseworks.actions.Settings;
 
 public class Main {
-    final static String VERSION = "v0.1.1";
+    final static String VERSION = "v0.1.2";
     final static String CHANNEL = "dev";
     final static String BUILD = VERSION + "-" + CHANNEL;
 

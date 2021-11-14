@@ -18,7 +18,7 @@ public class Settings {
         boolean isExist = directory.check(Paths.get(Paths.get("").toAbsolutePath()+"/settings.properties")) != 0;
         // ファイルはあるが、バージョンが古い場合
         boolean isOlder=false;
-        int ver = 0;
+        int ver;
         if(isExist){
             Properties prop = this.getSettings();
             try {

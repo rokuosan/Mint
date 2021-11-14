@@ -126,6 +126,7 @@ public class MainAction {
                                     if (directory.create(installPath)) {
                                         if (paper.install(installPath, version, build, true)) {
                                             System.out.println("[ Paper ] Complete!");
+                                            new Script().generate(installPath, "paper-"+ version + "-" + build + ".jar");
                                         } else {
                                             System.out.println("[ Paper ] Failed...");
                                         }
@@ -189,6 +190,11 @@ public class MainAction {
                                     if (directory.create(installPath)) {
                                         if (paper.install(installPath, version, build, true)) {
                                             System.out.println("[ Mohist ] Complete!");
+                                            HttpResponse<String> response = new Internet().connectResponse("https://mohistmc.com/api/" + version);
+                                            JSONObject object = new JSONObject(response.body());
+                                            object = object.getJSONObject(build);
+                                            String name = object.getString("name");
+                                            new Script().generate(installPath, name);
                                         } else {
                                             System.out.println("[ Mohist ] Failed...");
                                         }

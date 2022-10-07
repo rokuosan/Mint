@@ -11,9 +11,16 @@ enum class CommandList(
 ){
     INSTALL({ Install().interact() }),
     UNINSTALL({}),
-    HELP({}),
     SETTINGS({}),
-    EXIT({ Exit().interact() });
+    EXIT({ Exit().interact() }),
+    HELP({ println("""
+        実行可能コマンド
+          install
+          uninstall
+          settings
+          help
+          exit
+    """.trimIndent())});
 
     fun run(): Unit = function()
 }

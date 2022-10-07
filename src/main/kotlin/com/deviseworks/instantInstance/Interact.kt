@@ -1,5 +1,7 @@
 package com.deviseworks.instantInstance
 
+import com.deviseworks.instantInstance.commands.Exit
+
 /**
  * 実行可能なコマンドの列挙
  */
@@ -10,7 +12,7 @@ enum class CommandList(
     UNINSTALL({}),
     HELP({}),
     SETTINGS({}),
-    EXIT({ });
+    EXIT({ Exit().interact() });
 
     fun run(): Unit = function()
 }

@@ -36,9 +36,9 @@ class Interact {
         }
         if (!hit){
             if(call != ""){
-                println("Unknown command.")
+                println(Common.COMMAND_NOT_FOUND)
             }
-            print("> ")
+            print(Common.SHELL)
         }
 
         // 再起呼び出し

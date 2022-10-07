@@ -1,6 +1,7 @@
 package com.deviseworks.instantInstance
 
 import com.deviseworks.instantInstance.commands.Exit
+import com.deviseworks.instantInstance.commands.Install
 
 /**
  * 実行可能なコマンドの列挙
@@ -8,7 +9,7 @@ import com.deviseworks.instantInstance.commands.Exit
 enum class CommandList(
         val function: () -> Unit = { }
 ){
-    INSTALL({ }),
+    INSTALL({ Install().interact() }),
     UNINSTALL({}),
     HELP({}),
     SETTINGS({}),
@@ -34,14 +35,12 @@ class Interact {
                 hit=true
             }
         }
-        if (!hit){
-            if(call != ""){
-                println(Common.COMMAND_NOT_FOUND)
-            }
-            print(Common.SHELL)
+        if (call.isNotBlank() && !hit){
+            println(Common.COMMAND_NOT_FOUND)
         }
 
         // 再起呼び出し
+        print(Common.SHELL)
         val command = readLine()?:""
         next(command)
     }

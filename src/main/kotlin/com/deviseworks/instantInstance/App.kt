@@ -8,6 +8,7 @@ fun main(args: Array<String>) {
         // 起動時メッセージ
         val pw = PrintWriter(System.out)
         pw.println("Instant Instance ${Common.BUILD}")
+        pw.println("- help で実行可能なコマンドを表示します")
         pw.appendLine()
         pw.flush()
 

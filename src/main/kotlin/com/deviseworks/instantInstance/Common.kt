@@ -14,6 +14,8 @@ object Common{
     // Error Message
     const val COMMAND_NOT_FOUND = "\t不明なコマンド\n\thelpでコマンドリストを表示します。"
     const val INVALID_VALUE = "\t不明な値です"
+    const val FAILED_TO_CREATE_FOLDER = "フォルダの作成に失敗しました"
+
 
     // API URL
     const val PAPER_VERSIONS = "https://api.papermc.io/v2/projects/paper"

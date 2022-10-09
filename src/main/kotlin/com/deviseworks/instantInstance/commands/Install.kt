@@ -120,7 +120,7 @@ class Install: CommandInterface{
             Files.createDirectories(dir)
         }catch (e: Exception){
             e.stackTrace
-            println("フォルダの作成に失敗しました。")
+            println(Common.FAILED_TO_CREATE_FOLDER)
             return
         }
         Fetcher.downloadPaper(version, build, dir)

@@ -3,6 +3,7 @@ package com.deviseworks.instantInstance.commands
 import com.deviseworks.instantInstance.Common
 import com.deviseworks.instantInstance.util.Fetcher
 import com.deviseworks.instantInstance.util.FileManager
+import com.deviseworks.instantInstance.util.ScriptManager
 import java.nio.file.Files
 import java.nio.file.Paths
 
@@ -124,6 +125,16 @@ class Install: CommandInterface{
         }
         Fetcher.downloadPaper(version, build, dir)
 
+        // Generate script
+        try {
+            ScriptManager.generatePaper(version, build, dir.toString())
+        } catch(e: Exception) {
+            println("I/O Error: Couldn't write shell script")
+            return
+        }
+
+        // Finish
+        println("Complete!\n")
     }
 
     private fun cuberite(){

@@ -4,6 +4,6 @@ import kotlin.system.exitProcess
 
 class Exit: CommandInterface {
     override fun interact() {
-        exitProcess(1)
+        exitProcess(0)
     }
 }

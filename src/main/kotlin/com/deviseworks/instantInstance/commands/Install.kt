@@ -2,6 +2,9 @@ package com.deviseworks.instantInstance.commands
 
 import com.deviseworks.instantInstance.Common
 import com.deviseworks.instantInstance.util.Fetcher
+import com.deviseworks.instantInstance.util.FileManager
+import java.nio.file.Files
+import java.nio.file.Paths
 
 class Install: CommandInterface{
     override fun interact(){
@@ -95,13 +98,14 @@ class Install: CommandInterface{
         }
 
         // Reserve directory
-
-
+        val tag = FileManager.seekNumber("paper", version)
+        val dir = Paths.get("./paper/$version/$tag/").toAbsolutePath().normalize()
 
         // Confirm
         println("\nPaper を以下の条件でインストールします")
-        println("\t- Version: $version")
-        println("\t- Build  : $build\n")
+        println("\t- Version : $version")
+        println("\t- Build   : $build")
+        println("\t- Location: $dir\n")
 
         print("よろしいですか？[y/N]: ")
 
@@ -111,7 +115,14 @@ class Install: CommandInterface{
         }
 
         // Install
-
+        try{
+            Files.createDirectories(dir)
+        }catch (e: Exception){
+            e.stackTrace
+            println("フォルダの作成に失敗しました。")
+            return
+        }
+        Fetcher.downloadPaper(version, build, dir)
 
     }
 

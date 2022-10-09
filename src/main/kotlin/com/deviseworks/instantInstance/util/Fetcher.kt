@@ -8,6 +8,7 @@ import kotlinx.serialization.json.Json
 import java.net.HttpURLConnection
 import java.net.URL
 import java.nio.file.Files
+import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardCopyOption
 
@@ -60,13 +61,18 @@ object Fetcher {
      * @param url ダウンロードURL
      * @param dest ダウンロード先
      */
-    fun downloadFile(url: String, dest: String){
-        val filename = URL(url).file
+    private fun downloadFile(url: String, dest: Path){
+        val filename = url.substring(url.lastIndexOf("/")+1)
 
         try{
             Files.copy(URL(url).openStream(), Paths.get("${dest}/$filename"), StandardCopyOption.REPLACE_EXISTING)
         }catch(e: Exception){
             e.printStackTrace()
         }
+    }
+
+    fun downloadPaper(version: String, build: String, dest: Path){
+        val url = "https://api.papermc.io/v2/projects/paper/versions/$version/builds/$build/downloads/paper-$version-$build.jar"
+        this.downloadFile(url, dest)
     }
 }

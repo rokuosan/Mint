@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.7.10"
-    kotlin("plugin.serialization") version "1.7.10"
-    id("org.jetbrains.dokka") version "1.7.10"
-    id ("com.github.johnrengelman.shadow") version "7.1.2"
+    id("org.jetbrains.kotlin.jvm") version "1.9.10"
+    kotlin("plugin.serialization") version "1.9.10"
+    id("org.jetbrains.dokka") version "1.9.10"
+    id ("com.github.johnrengelman.shadow") version "8.1.1"
     application
     java
 }
@@ -19,24 +19,17 @@ repositories {
 }
 
 dependencies {
-    // Serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.0")
-
-    // Dokka
-    dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.8.10")
-
-    // Clikt
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.10")
     implementation("com.github.ajalt.clikt:clikt:4.2.0")
 
-    // Test
+    dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.9.10")
+
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
 
 application {
-    // Define the main class for the application.
-//    mainClass.set("com.deviseworks.instantInstance.AppKt")
-    mainClass.set("me.konso.instantInstance.AppKt")
+    mainClass.set("io.github.rokuosan.mint")
 }
 
 tasks.withType<KotlinCompile>{
@@ -47,7 +40,7 @@ tasks.withType<KotlinCompile>{
 
 tasks.dokkaHtml.configure{
     outputDirectory.set(buildDir.resolve("docs"))
-    moduleName.set("Instant Instance Tools")
+    moduleName.set("Mint")
 }
 
 tasks.getByName<JavaExec>("run"){
@@ -55,9 +48,9 @@ tasks.getByName<JavaExec>("run"){
 }
 val compileKotlin: KotlinCompile by tasks
 compileKotlin.kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "11"
 }
 val compileTestKotlin: KotlinCompile by tasks
 compileTestKotlin.kotlinOptions {
-    jvmTarget = "1.8"
+    jvmTarget = "11"
 }

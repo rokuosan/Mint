@@ -1,5 +1,8 @@
 package io.github.rokuosan.mint
 
-fun main(){
+import com.github.ajalt.clikt.core.subcommands
+import io.github.rokuosan.mint.commands.New
 
-}
+fun main(args: Array<String>) = Mint()
+    .subcommands(New())
+    .main(args)

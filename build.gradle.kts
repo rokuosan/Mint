@@ -1,15 +1,14 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.9.10"
-    kotlin("plugin.serialization") version "1.9.10"
+    kotlin("jvm") version "1.9.10"
+    kotlin("plugin.serialization") version "1.6.21"
     id("org.jetbrains.dokka") version "1.9.10"
     id ("com.github.johnrengelman.shadow") version "8.1.1"
     application
     java
 }
 
-//group = "com.deviseworks"
 group = "me.konso"
 java.sourceCompatibility = JavaVersion.VERSION_16
 java.targetCompatibility = JavaVersion.VERSION_11
@@ -19,8 +18,8 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.10")
-    implementation("com.github.ajalt.clikt:clikt:4.2.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    implementation("com.github.ajalt.clikt:clikt:4.2.1")
 
     dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.9.10")
 
@@ -29,7 +28,7 @@ dependencies {
 }
 
 application {
-    mainClass.set("io.github.rokuosan.mint")
+    mainClass.set("io.github.rokuosan.mint.MainKt")
 }
 
 tasks.withType<KotlinCompile>{
@@ -39,7 +38,7 @@ tasks.withType<KotlinCompile>{
 }
 
 tasks.dokkaHtml.configure{
-    outputDirectory.set(buildDir.resolve("docs"))
+    outputDirectory.set(layout.buildDirectory.dir("docs"))
     moduleName.set("Mint")
 }
 

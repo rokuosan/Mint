@@ -1,12 +1,8 @@
 package io.github.rokuosan.mint.fetcher
 
+import io.github.rokuosan.mint.fetcher.interfaces.Fetcher
 import java.net.HttpURLConnection
 import java.net.URL
-
-interface Fetcher {
-    fun fetch(): Boolean
-    fun download(vararg conditions: String)
-}
 
 abstract class AbstractFetcher: Fetcher {
     fun sendGetRequest(url: URL): String? {

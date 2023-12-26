@@ -12,6 +12,8 @@ import io.github.rokuosan.mint.fetcher.PaperFetcher
 import io.github.rokuosan.mint.fetcher.PaperFetcherOptions
 import io.github.rokuosan.mint.utils.RandomStringProvider
 import kotlinx.coroutines.*
+import kotlin.io.path.Path
+import kotlin.io.path.exists
 
 class New: CliktCommand() {
     private val engine by option("-e", "--engine", help = "Server engines(e.g. Paper, Vanilla)")
@@ -22,7 +24,7 @@ class New: CliktCommand() {
     private val build by option("-b", "--build", help = "Build number (e.g. \"latest\", \"1\")")
 
     private val destination by option("-d", "--destination", help = "Output directory")
-    private val filename by option("-f", "--filename", help = "Output filename")
+    private val filename by option("-f", "--filename", help = "Output filename without extension")
 
     override fun run() = runBlocking {
         when (engine) {
@@ -67,19 +69,44 @@ class New: CliktCommand() {
                 }
 
                 val dest = if (destination != null) {
-                    destination!!
+                    val dir = Path(destination!!)
+                    if (!dir.exists()) {
+                        destination!!
+                    }else {
+                        echo("Directory already exists.")
+                        return@runBlocking
+                    }
                 }else {
-                    RandomStringProvider.getShortString()
+                    var d: String? = null
+                    while (d == null) {
+                        // Generate random string
+                        val rnd = RandomStringProvider.getShortString()
+
+                        // Check if the directory exists
+                        val dir = Path(rnd)
+                        if (dir.exists()) {
+                            continue
+                        }
+
+                        // Set the directory
+                        d = rnd
+                    }
+                    d
                 }
 
-                val pds = StringPrompt(
-                    prompt = "Destination",
-                    terminal = terminal,
-                    default = dest,
-                    showDefault = true,
-                ).ask()?:dest
+                val pds = if (destination != null) {
+                    destination!!
+                }else {
+                    StringPrompt(
+                        prompt = "Destination",
+                        terminal = terminal,
+                        default = dest,
+                        showDefault = true,
+                    ).ask()?:dest
+                }
                 echo("Downloading Paper build $bld[MC:$version] to $pds...")
                 PaperFetcher().download(PaperFetcherOptions(version, bld, dest, filename))
+                echo("Completed.")
             }
             "vanilla", "v" -> {
                 echo("Not implemented.")

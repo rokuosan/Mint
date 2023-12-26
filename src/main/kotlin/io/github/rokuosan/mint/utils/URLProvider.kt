@@ -8,5 +8,7 @@ object URLProvider {
 
     fun paperVersionURL() = URL(PAPER_URL)
     fun paperBuildURL(version: String) = URL("$PAPER_URL/versions/$version")
+    fun paperDownloadURL(version: String, build: String) =
+        URL("$PAPER_URL/versions/$version/builds/$build/downloads/paper-$version-$build.jar")
 
 }

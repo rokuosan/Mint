@@ -1,4 +1,4 @@
-package com.deviseworks.instantInstance.entity
+package io.github.rokuosan.mint.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

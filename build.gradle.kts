@@ -1,15 +1,15 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.jetbrains.kotlin.jvm") version "1.7.10"
-    kotlin("plugin.serialization") version "1.7.10"
-    id("org.jetbrains.dokka") version "1.7.10"
-    id ("com.github.johnrengelman.shadow") version "7.1.2"
+    kotlin("jvm") version "1.9.10"
+    kotlin("plugin.serialization") version "1.6.21"
+    id("org.jetbrains.dokka") version "1.9.10"
+    id ("com.github.johnrengelman.shadow") version "8.1.1"
     application
     java
 }
 
-group = "com.deviseworks"
+group = "me.konso"
 java.sourceCompatibility = JavaVersion.VERSION_16
 java.targetCompatibility = JavaVersion.VERSION_11
 
@@ -18,20 +18,18 @@ repositories {
 }
 
 dependencies {
-    // Serialization
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0-RC")
+    implementation("com.github.ajalt.clikt:clikt:4.2.1")
 
-    // Dokka
-    dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.7.10")
+    dokkaHtmlPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.9.10")
 
-    // Test
     testImplementation("org.jetbrains.kotlin:kotlin-test")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit")
 }
 
 application {
-    // Define the main class for the application.
-    mainClass.set("com.deviseworks.instantInstance.AppKt")
+    mainClass.set("io.github.rokuosan.mint.MainKt")
 }
 
 tasks.withType<KotlinCompile>{
@@ -41,10 +39,18 @@ tasks.withType<KotlinCompile>{
 }
 
 tasks.dokkaHtml.configure{
-    outputDirectory.set(buildDir.resolve("docs"))
-    moduleName.set("Instant Instance Tools")
+    outputDirectory.set(layout.buildDirectory.dir("docs"))
+    moduleName.set("Mint")
 }
 
 tasks.getByName<JavaExec>("run"){
     standardInput = System.`in`
+}
+val compileKotlin: KotlinCompile by tasks
+compileKotlin.kotlinOptions {
+    jvmTarget = "11"
+}
+val compileTestKotlin: KotlinCompile by tasks
+compileTestKotlin.kotlinOptions {
+    jvmTarget = "11"
 }

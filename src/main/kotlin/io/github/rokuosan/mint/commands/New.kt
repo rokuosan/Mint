@@ -1,6 +1,7 @@
 package io.github.rokuosan.mint.commands
 
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.parameters.options.flag
 import com.github.ajalt.clikt.parameters.options.option
 import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.choice
@@ -25,6 +26,7 @@ class New: CliktCommand() {
 
     private val destination by option("-d", "--destination", help = "Output directory")
     private val filename by option("-f", "--filename", help = "Output filename without extension")
+    private val yes by option("-y", "--yes", help = "Skip confirmation").flag()
 
     override fun run() = runBlocking {
         when (engine) {
@@ -91,18 +93,22 @@ class New: CliktCommand() {
                         // Set the directory
                         d = rnd
                     }
-                    d
+                    "$engine-$version-$d"
                 }
 
                 val pds = if (destination != null) {
                     destination!!
                 }else {
-                    StringPrompt(
-                        prompt = "Destination",
-                        terminal = terminal,
-                        default = dest,
-                        showDefault = true,
-                    ).ask()?:dest
+                    if (yes) {
+                        dest
+                    }else {
+                        StringPrompt(
+                            prompt = "Destination",
+                            terminal = terminal,
+                            default = dest,
+                            showDefault = true,
+                        ).ask() ?: dest
+                    }
                 }
                 echo("Downloading Paper build $bld[MC:$version] to $pds...")
                 PaperFetcher().download(PaperFetcherOptions(version, bld, dest, filename))

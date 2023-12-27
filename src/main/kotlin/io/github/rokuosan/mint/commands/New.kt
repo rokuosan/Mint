@@ -15,6 +15,7 @@ import io.github.rokuosan.mint.utils.RandomStringProvider
 import kotlinx.coroutines.*
 import kotlin.io.path.Path
 import kotlin.io.path.exists
+import kotlin.io.path.writeText
 
 class New: CliktCommand() {
     private val engine by option("-e", "--engine", help = "Server engines(e.g. Paper, Vanilla)")
@@ -111,7 +112,26 @@ class New: CliktCommand() {
                     }
                 }
                 echo("Downloading Paper build $bld[MC:$version] to $pds...")
-                PaperFetcher().download(PaperFetcherOptions(version, bld, dest, filename))
+                PaperFetcher().download(PaperFetcherOptions(version, bld, pds, filename))
+
+                // Create snippet
+                val shell = """
+                #!/bin/bash
+                java -Xms4G -Xmx4G -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -jar paper-$version-$bld.jar
+                """.trimIndent()
+                val batch = """
+                @echo off
+                java -Xms4G -Xmx4G -XX:+UnlockExperimentalVMOptions -XX:+DisableExplicitGC -jar paper-$version-$bld.jar
+                """.trimIndent()
+
+                // Create file
+                val path = Path(pds)
+                val shellFile = path.resolve("start.sh")
+                shellFile.writeText("$shell\n")
+                shellFile.toFile().setExecutable(true)
+                val batchFile = path.resolve("start.bat")
+                batchFile.writeText("$batch\n")
+
                 echo("Completed.")
             }
             "vanilla", "v" -> {

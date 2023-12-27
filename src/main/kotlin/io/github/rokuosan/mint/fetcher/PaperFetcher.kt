@@ -5,7 +5,6 @@ import io.github.rokuosan.mint.fetcher.interfaces.FetcherOptions
 import io.github.rokuosan.mint.models.PaperBuilds
 import io.github.rokuosan.mint.utils.URLProvider
 import kotlinx.serialization.json.Json
-import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 import kotlin.io.path.Path
 import kotlin.io.path.createDirectories
@@ -52,12 +51,6 @@ class PaperFetcher: AbstractFetcher() {
         } else {
             // Add execute permission
             dest.toFile().setExecutable(true)
-        }
-
-        // Setup snippet
-        val setup = Path(options.destination).resolve("setup.sh")
-        if (!setup.exists()) {
-            Files.writeString(setup, "java -jar ${dest.fileName}")
         }
     }
 

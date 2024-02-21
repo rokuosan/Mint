@@ -1,0 +1,44 @@
+[versions]
+kotlin = "1.9.10"
+kotlinx-serialization = "1.6.2"
+kotlinx-coroutines = "1.7.3"
+kotlinx-datetime = "0.5.0"
+ktor = "2.3.7"
+clikt = "4.2.2"
+napier = "2.7.1"
+
+[libraries]
+# Kotlinx
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+
+# Ktor
+ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor"}
+ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+
+# Clikt
+clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
+# Napier
+napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+
+
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
+kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit" }
+
+[plugins]
+jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+
+[bundles]
+kotlinx = [
+    "kotlinx-datetime",
+    "kotlinx-coroutines-core",
+    "kotlinx-serialization-json",
+]
+test = [
+    "kotlin-test",
+    "kotlin-test-junit",
+]

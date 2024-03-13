@@ -36,9 +36,4 @@ abstract class AbstractFetcher: Fetcher {
             false
         }
     }
-
-
-    fun install() {
-
-    }
 }

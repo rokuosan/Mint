@@ -7,10 +7,11 @@ import com.github.ajalt.clikt.parameters.options.required
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.mordant.animation.progressAnimation
 import com.github.ajalt.mordant.terminal.StringPrompt
+import com.github.ajalt.mordant.terminal.Terminal
 import com.github.ajalt.mordant.widgets.Spinner
-import io.github.rokuosan.mint.TERMINAL
 import io.github.rokuosan.mint.fetcher.PaperFetcher
 import io.github.rokuosan.mint.fetcher.PaperFetcherOptions
+import io.github.rokuosan.mint.helper.loading
 import io.github.rokuosan.mint.utils.RandomStringProvider
 import kotlinx.coroutines.*
 import kotlin.io.path.Path
@@ -32,43 +33,14 @@ class New: CliktCommand() {
     override fun run() = runBlocking {
         when (engine) {
             "paper", "p" -> {
-                val terminal = TERMINAL
+                val terminal = Terminal()
                 val bld = if (build != null) {
                     build!!
                 }else {
-                    // Make a progress bar
-                    val progress = terminal.progressAnimation {
-                        text("Fetching builds...")
-                        spinner(Spinner.Dots())
+                    val bld = terminal.loading("Fetching builds ") {
+                        return@loading PaperFetcher().getBuilds(version)
                     }
-                    progress.start()
-
-                    // Fetch builds
-                    var bld: List<Int>? = null
-                    val job = launch {
-                        bld = PaperFetcher().getBuilds(version) ?: emptyList()
-                    }
-
-                    // Wait for fetching builds
-                    while (bld == null) {
-                        delay(10)
-                        progress.advance(1)
-                    }
-
-                    // Stop progress bar
-                    job.join()
-                    progress.stop()
-                    terminal.cursor.move {
-                        up(1)
-                        clearLineAfterCursor()
-                    }
-                    terminal.println("Fetching builds... Done")
-
-                    if (bld!!.isEmpty()) {
-                        echo("No builds found.")
-                        return@runBlocking
-                    }
-                    bld!!.last().toString()
+                    "latest"
                 }
 
                 val dest = if (destination != null) {

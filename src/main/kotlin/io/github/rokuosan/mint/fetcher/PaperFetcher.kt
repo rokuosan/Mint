@@ -24,7 +24,7 @@ data class PaperFetcherOptions(
 private const val API_ENDPOINT = "https://api.papermc.io/v2/projects/paper"
 
 class PaperFetcher(
-    private val options: PaperFetcherOptions
+    override val options: PaperFetcherOptions
 ): AbstractFetcher() {
     override fun getFetcherInformation() = "Paper Fetcher"
     private val terminal = Terminal()

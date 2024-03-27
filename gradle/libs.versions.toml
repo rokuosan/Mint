@@ -6,6 +6,7 @@ kotlinx-datetime = "0.5.0"
 ktor = "2.3.7"
 clikt = "4.2.2"
 napier = "2.7.1"
+slf4j = "2.0.12"
 
 [libraries]
 # Kotlinx
@@ -16,6 +17,7 @@ kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.
 # Ktor
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-java = { module = "io.ktor:ktor-client-java", version.ref = "ktor" }
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor"}
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 
@@ -23,6 +25,9 @@ ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx
 clikt = { module = "com.github.ajalt.clikt:clikt", version.ref = "clikt" }
 # Napier
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+
+# SLF4J
+slf4j-nop = { module = "org.slf4j:slf4j-nop", version.ref = "slf4j" }
 
 
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test" }
